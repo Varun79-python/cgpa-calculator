@@ -27,10 +27,16 @@ export default function HistorySidebar() {
       {sidebarOpen && <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 40 }} onClick={() => setSidebarOpen(false)} />}
 
       <aside style={{
-        position: 'fixed', top: 0, right: 0, height: '100%', width: '100%', maxWidth: '320px', zIndex: 50,
-        background: 'var(--bg)', borderLeft: '1px solid var(--border-solid)',
-        transform: sidebarOpen ? 'translateX(0)' : 'translateX(100%)',
-        transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+        position: 'fixed', top: '50%', right: '50%',
+        transform: sidebarOpen ? 'translate(50%, -50%)' : 'translate(50%, -50%) scale(0.95)',
+        opacity: sidebarOpen ? 1 : 0,
+        pointerEvents: sidebarOpen ? 'auto' : 'none',
+        width: '90%', maxWidth: '340px', maxHeight: '80vh',
+        zIndex: 50,
+        background: 'var(--bg)', border: '1px solid var(--border-solid)',
+        borderRadius: 'var(--radius-xl)',
+        boxShadow: 'var(--shadow-2xl)',
+        transition: 'opacity 0.2s ease, transform 0.2s ease',
         display: 'flex', flexDirection: 'column',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--sp-3) var(--sp-4)', borderBottom: '1px solid var(--border-solid)' }}>
