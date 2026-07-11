@@ -1,38 +1,43 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
 interface AnimatedNumberProps {
   value?: number;
   decimals?: number;
-  fontSize?: string;
-  color?: string;
+  duration?: number;
 }
 
 export default function AnimatedNumber({
   value = 0,
   decimals = 2,
-  fontSize = '2.8rem',
+  duration = 600,
 }: AnimatedNumberProps) {
-  return (
-    <span
-      style={{
-        fontFamily: 'system-ui, sans-serif',
-        fontSize,
-        fontWeight: 700,
-        color: 'inherit',
-        letterSpacing: '-0.03em',
-        lineHeight: 1,
-        display: 'inline-block',
-        fontVariantNumeric: 'tabular-nums',
-      }}
-    >
-      {value.toFixed(decimals)}
-    </span>
-  );
-}
+  const [display, setDisplay] = useState(0);
+  const prev = useRef(0);
+  const raf = useRef<number | null>(null);
 
-export function AnimatedPercentage({ value = 0, decimals = 2 }: { value?: number; decimals?: number }) {
+  useEffect(() => {
+    const start = prev.current;
+    const end = value;
+    const t0 = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - t0;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplay(start + (end - start) * eased);
+      if (progress < 1) raf.current = requestAnimationFrame(tick);
+      else prev.current = end;
+    };
+
+    raf.current = requestAnimationFrame(tick);
+    return () => { if (raf.current) cancelAnimationFrame(raf.current); };
+  }, [value, duration]);
+
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'baseline', gap: 2 }}>
-      <AnimatedNumber value={value} decimals={decimals} fontSize="1.1rem" />
-      <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>%</span>
+    <span className="result-number">
+      {display.toFixed(decimals)}
     </span>
   );
 }

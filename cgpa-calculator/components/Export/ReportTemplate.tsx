@@ -2,73 +2,31 @@ import { useState } from 'react';
 import { Subject, CalculationResult } from '@/types';
 import PDFGenerator from './PDFGenerator';
 
-interface ReportTemplateProps {
-  result?: CalculationResult | null;
-  type?: string;
-  subjects?: Subject[];
-}
-
-export default function ReportTemplate({ result, type, subjects }: ReportTemplateProps) {
-  const [includeCharts, setIncludeCharts] = useState(true);
+export default function ReportTemplate({ result, type, subjects }: { result?: CalculationResult | null; type?: string; subjects?: Subject[] }) {
   const [includeSubjects, setIncludeSubjects] = useState(true);
 
   return (
-    <div className="space-y-6">
-      <div className="sec-head">
-        <div className="sec-title">
-          <span className="sec-icon"><i className="fa-solid fa-file-lines" /></span>
-          <span>Report Customization</span>
-        </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-4)' }}>
+      <div style={{ padding: 'var(--sp-4)', background: 'var(--surface-2)', borderRadius: 'var(--radius-lg)' }}>
+        <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, marginBottom: 'var(--sp-3)' }}>Include Sections</div>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)', cursor: 'pointer', fontSize: 'var(--text-xs)', color: 'var(--ink-3)' }}>
+          <input type="checkbox" checked={includeSubjects} onChange={(e) => setIncludeSubjects(e.target.checked)} style={{ width: '14px', height: '14px', accentColor: 'var(--ink)' }} />
+          Subject-wise breakdown
+        </label>
       </div>
 
-      <div className="p-6 rounded-xl bg-[var(--surface2)] border border-[var(--border)]">
-        <h4 className="text-sm font-semibold mb-4">Include Sections</h4>
-        <div className="space-y-3">
-          <label className="flex items-center gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={includeSubjects}
-              onChange={(e) => setIncludeSubjects(e.target.checked)}
-              className="w-4 h-4 rounded border-[var(--border)]"
-            />
-            <span className="text-sm text-[var(--ink-mid)]">Subject-wise breakdown</span>
-          </label>
-          <label className="flex items-center gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={includeCharts}
-              onChange={(e) => setIncludeCharts(e.target.checked)}
-              className="w-4 h-4 rounded border-[var(--border)]"
-            />
-            <span className="text-sm text-[var(--ink-mid)]">Grade distribution chart</span>
-          </label>
-        </div>
-      </div>
-
-      {/* Preview */}
       {result && (
-        <div className="p-6 rounded-xl bg-[var(--surface2)] border border-[var(--border)]">
-          <h4 className="text-sm font-semibold mb-4">Preview</h4>
-          <div className="p-4 rounded-lg bg-[var(--bg)] border border-[var(--border)]">
-            <div className="text-center">
-              <div className="text-xs uppercase tracking-wider text-[var(--ink-mid)] mb-1">
-                {type} Result
-              </div>
-              <div className="text-3xl font-bold text-[var(--violet)]">
-                {result.num?.toFixed(2) || '—'}
-              </div>
-              {result.pct !== undefined && (
-                <div className="text-sm text-[var(--ink-mid)] mt-1">
-                  {result.pct.toFixed(2)}%
-                </div>
-              )}
-            </div>
+        <div style={{ padding: 'var(--sp-4)', background: 'var(--surface-2)', borderRadius: 'var(--radius-lg)' }}>
+          <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, marginBottom: 'var(--sp-3)' }}>Preview</div>
+          <div style={{ padding: 'var(--sp-4)', background: 'var(--bg)', borderRadius: 'var(--radius-md)', textAlign: 'center' }}>
+            <div style={{ fontSize: 'var(--text-2xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--ink-4)', marginBottom: 'var(--sp-1)' }}>{type} Result</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-3xl)', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-0.03em' }}>{result.num?.toFixed(2) || '—'}</div>
+            {result.pct !== undefined && <div style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-3)', marginTop: 'var(--sp-1)' }}>{result.pct.toFixed(2)}%</div>}
             {includeSubjects && subjects && subjects.length > 0 && (
-              <div className="mt-4 space-y-1">
+              <div style={{ marginTop: 'var(--sp-4)', textAlign: 'left' }}>
                 {subjects.filter(s => s.name).map((s, i) => (
-                  <div key={i} className="flex justify-between text-xs text-[var(--ink-mid)] py-1 border-b border-[var(--border)] last:border-0">
-                    <span>{s.name}</span>
-                    <span>{s.credits} cr · {s.grade} pts</span>
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--text-2xs)', color: 'var(--ink-3)', padding: 'var(--sp-2) 0', borderBottom: i < subjects.length - 1 ? '1px solid var(--border)' : 'none' }}>
+                    <span>{s.name}</span><span>{s.credits} cr · {s.grade} pts</span>
                   </div>
                 ))}
               </div>

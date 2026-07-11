@@ -2,14 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { useHistoryStore, useUIStore } from '@/store/useStore';
 import { showToast } from '@/components/Shared/Toast';
 
-interface HistorySidebarProps {
-  onRestore?: (entry: any) => void;
-}
-
-export default function HistorySidebar({ onRestore }: HistorySidebarProps) {
+export default function HistorySidebar() {
   const { history, deleteEntry, clearAll } = useHistoryStore();
   const { sidebarOpen, setSidebarOpen } = useUIStore();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -22,152 +18,60 @@ export default function HistorySidebar({ onRestore }: HistorySidebarProps) {
     return () => document.removeEventListener('keydown', handler);
   }, [sidebarOpen, setSidebarOpen]);
 
-  const filtered = searchQuery
-    ? history.filter(e =>
-        e.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        e.score.toString().includes(searchQuery) ||
-        (e.subtitle && e.subtitle.toLowerCase().includes(searchQuery.toLowerCase()))
-      )
+  const filtered = search
+    ? history.filter(e => e.type.toLowerCase().includes(search.toLowerCase()) || e.score.toString().includes(search) || e.subtitle?.toLowerCase().includes(search.toLowerCase()))
     : history;
-
-  const handleClearAll = useCallback(() => {
-    if (confirm('Clear all history?')) {
-      clearAll();
-      showToast('History cleared', 'info');
-    }
-  }, [clearAll]);
-
-  const handleDelete = useCallback((id: string) => {
-    const entry = history.find(e => e.id === id);
-    deleteEntry(id);
-    showToast('Entry deleted', 'info', () => {
-      if (entry) useHistoryStore.getState().addEntry(entry);
-    });
-  }, [history, deleteEntry]);
-
-  const handleExport = useCallback(() => {
-    const blob = new Blob([JSON.stringify(history, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `cgpa-history-${Date.now()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('History exported as JSON', 'success');
-  }, [history]);
 
   return (
     <>
-      {/* Toggle button */}
-      <button
-        className="fixed top-4 right-4 z-40 w-10 h-10 flex items-center justify-center rounded-xl bg-[var(--surface)] border border-[var(--border)] text-[var(--ink-mid)] hover:text-[var(--ink)] transition-colors"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        title="History (Ctrl+Shift+H)"
-        aria-label="Toggle history sidebar"
-      >
-        <i className="fa-solid fa-clock-rotate-left" />
-        {history.length > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center rounded-full bg-[var(--violet)] text-white text-[10px] font-bold">
-            {history.length}
-          </span>
-        )}
-      </button>
+      {sidebarOpen && <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 40 }} onClick={() => setSidebarOpen(false)} />}
 
-      {/* Overlay */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 bg-black/50 z-40" onClick={() => setSidebarOpen(false)} />
-      )}
-
-      {/* Sidebar */}
-      <aside className={`fixed top-0 right-0 h-full w-full max-w-sm z-50 bg-[var(--bg)] border-l border-[var(--border)] transform transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-[var(--border)]">
-            <h3 className="font-semibold flex items-center gap-2">
-              <i className="fa-solid fa-clock-rotate-left text-[var(--violet)]" />
-              History
-            </h3>
-            <div className="flex items-center gap-2">
-              {history.length > 0 && (
-                <>
-                  <button onClick={handleExport} className="p-2 rounded-lg hover:bg-[var(--surface2)] text-[var(--ink-mid)]" title="Export JSON">
-                    <i className="fa-solid fa-download" />
-                  </button>
-                  <button onClick={handleClearAll} className="p-2 rounded-lg hover:bg-[var(--surface2)] text-[var(--red)]" title="Clear all">
-                    <i className="fa-solid fa-trash-can" />
-                  </button>
-                </>
-              )}
-              <button onClick={() => setSidebarOpen(false)} className="p-2 rounded-lg hover:bg-[var(--surface2)] text-[var(--ink-mid)]">
-                <i className="fa-solid fa-xmark" />
-              </button>
-            </div>
+      <aside style={{
+        position: 'fixed', top: 0, right: 0, height: '100%', width: '100%', maxWidth: '320px', zIndex: 50,
+        background: 'var(--bg)', borderLeft: '1px solid var(--border-solid)',
+        transform: sidebarOpen ? 'translateX(0)' : 'translateX(100%)',
+        transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+        display: 'flex', flexDirection: 'column',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--sp-3) var(--sp-4)', borderBottom: '1px solid var(--border-solid)' }}>
+          <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600 }}>History</span>
+          <div style={{ display: 'flex', gap: 'var(--sp-1)' }}>
+            {history.length > 0 && <button className="icon-btn" style={{ width: '28px', height: '28px' }} onClick={() => { clearAll(); showToast('Cleared', 'info'); }} title="Clear all"><i className="fa-solid fa-trash-can" style={{ fontSize: '0.65rem' }} /></button>}
+            <button className="icon-btn" style={{ width: '28px', height: '28px' }} onClick={() => setSidebarOpen(false)}><i className="fa-solid fa-xmark" style={{ fontSize: '0.7rem' }} /></button>
           </div>
+        </div>
 
-          {/* Search */}
-          <div className="p-3 border-b border-[var(--border)]">
-            <div className="relative">
-              <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-[var(--ink-faint)] text-sm" />
-              <input
-                type="text"
-                placeholder="Search history…"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 rounded-lg bg-[var(--surface2)] border border-[var(--border)] text-sm text-[var(--ink)] outline-none"
-              />
+        <div style={{ padding: 'var(--sp-3)', borderBottom: '1px solid var(--border-solid)' }}>
+          <input type="text" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="input" style={{ height: '34px', fontSize: 'var(--text-xs)' }} />
+        </div>
+
+        <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--sp-3)' }}>
+          {filtered.length === 0 ? (
+            <div className="empty-state" style={{ padding: 'var(--sp-8) var(--sp-4)' }}>
+              <div className="empty-icon" style={{ width: '40px', height: '40px', fontSize: 'var(--text-sm)' }}><i className="fa-solid fa-book-open" /></div>
+              <div className="empty-title" style={{ fontSize: 'var(--text-xs)' }}>No saved results</div>
             </div>
-          </div>
-
-          {/* List */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            {filtered.length === 0 ? (
-              <div className="text-center py-12 text-[var(--ink-faint)]">
-                <i className="fa-solid fa-book-open text-3xl mb-3 opacity-50" />
-                <p className="text-sm">No saved results yet.</p>
-                <p className="text-xs">Calculations save automatically.</p>
-              </div>
-            ) : (
-              filtered.map(entry => (
-                <div
-                  key={entry.id}
-                  className="p-3 rounded-xl bg-[var(--surface2)] border border-[var(--border)] hover:border-[var(--violet)]/30 cursor-pointer transition-all group relative"
-                  onClick={() => {
-                    onRestore?.(entry);
-                    setSidebarOpen(false);
-                  }}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-[var(--violet)]">
-                      {entry.type}
-                    </span>
-                    <span className="text-[10px] text-[var(--ink-faint)]">{entry.date}</span>
+          ) : (
+            <div className="history-list">
+              {filtered.map(e => (
+                <div key={e.id} className="history-item" style={{ cursor: 'default', padding: 'var(--sp-3)' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--sp-2)', marginBottom: '2px' }}>
+                      <span className="history-badge" style={{ minWidth: 'auto', padding: '1px 6px' }}>{e.type}</span>
+                      <span className="history-score" style={{ fontSize: 'var(--text-sm)' }}>{e.score.toFixed(2)}</span>
+                    </div>
+                    {e.subtitle && <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--ink-4)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.subtitle}</div>}
                   </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-lg font-bold text-[var(--ink)]">{entry.score.toFixed(2)}</span>
-                    {entry.percentage !== undefined && (
-                      <span className="text-sm text-[var(--ink-mid)]">{entry.percentage.toFixed(2)}%</span>
-                    )}
-                  </div>
-                  {entry.subtitle && (
-                    <div className="text-xs text-[var(--ink-faint)] mt-1">{entry.subtitle}</div>
-                  )}
-                  <button
-                    className="absolute top-2 right-2 p-1 rounded opacity-0 group-hover:opacity-100 hover:bg-[var(--surface3)] text-[var(--ink-faint)] hover:text-[var(--red)] transition-all"
-                    onClick={(e) => { e.stopPropagation(); handleDelete(entry.id); }}
-                    title="Delete"
-                  >
-                    <i className="fa-solid fa-xmark text-xs" />
-                  </button>
+                  <button className="rm-btn" onClick={() => { deleteEntry(e.id); showToast('Deleted', 'info'); }} style={{ opacity: 0.5 }}><i className="fa-solid fa-xmark" style={{ fontSize: '0.6rem' }} /></button>
                 </div>
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
+        </div>
 
-          {/* Footer */}
-          <div className="p-3 border-t border-[var(--border)] text-[10px] text-[var(--ink-faint)] flex justify-between">
-            <span>Auto-saved locally</span>
-            <span>{history.length} entries</span>
-          </div>
+        <div style={{ padding: 'var(--sp-3)', borderTop: '1px solid var(--border-solid)', fontSize: 'var(--text-2xs)', color: 'var(--ink-5)', display: 'flex', justifyContent: 'space-between' }}>
+          <span>Auto-saved</span>
+          <span>{history.length} entries</span>
         </div>
       </aside>
     </>

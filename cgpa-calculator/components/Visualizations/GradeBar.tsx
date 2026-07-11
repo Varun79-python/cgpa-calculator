@@ -1,88 +1,95 @@
 import { Subject } from '@/types';
-import { getGradeLetter, getGradeColor } from '@/utils/calculations/sgpaCalculator';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
-
-interface GradeBarProps {
+interface Props {
   subjects: Subject[];
 }
 
-export default function GradeBarChart({ subjects }: GradeBarProps) {
-  const validSubjects = subjects.filter(s => {
+export default function GradeBarChart({ subjects }: Props) {
+  const valid = subjects.filter(s => {
     const g = parseFloat(s.grade as string);
-    return !isNaN(g) && g > 0 && s.name;
+    return !isNaN(g) && g > 0;
   });
 
-  if (validSubjects.length === 0) {
+  if (valid.length === 0) {
     return (
-      <div className="text-center py-8 text-[var(--ink-faint)] text-sm">
-        No subject data to visualize
+      <div style={{ textAlign: 'center', padding: 'var(--sp-8)', color: 'var(--ink-4)', fontSize: 'var(--text-xs)' }}>
+        No data to display
       </div>
     );
   }
 
-  const sorted = [...validSubjects].sort((a, b) => 
-    parseFloat(b.grade as string) - parseFloat(a.grade as string)
+  // Count grades per point value
+  const counts: Record<number, number> = {};
+  valid.forEach(s => {
+    const g = Math.round(parseFloat(s.grade as string));
+    counts[g] = (counts[g] || 0) + 1;
+  });
+
+  const maxCount = Math.max(...Object.values(counts));
+  const grades = [10, 9, 8, 7, 6, 5, 0];
+  const labels: Record<number, string> = {
+    10: 'O', 9: 'A', 8: 'B+', 7: 'C+', 6: 'D', 5: 'E', 0: 'F',
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-2)' }}>
+      {grades.map(g => {
+        const count = counts[g] || 0;
+        if (count === 0) return null;
+        const pct = maxCount > 0 ? (count / maxCount) * 100 : 0;
+
+        return (
+          <div key={g} style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)' }}>
+            <div style={{
+              width: '28px', fontSize: 'var(--text-2xs)', fontWeight: 600,
+              color: 'var(--ink-3)', textAlign: 'right', flexShrink: 0,
+              fontFamily: 'var(--font-mono)',
+            }}>
+              {labels[g]}
+            </div>
+            <div style={{
+              flex: 1, height: '24px', background: 'var(--surface-3)',
+              borderRadius: 'var(--radius-sm)', overflow: 'hidden',
+            }}>
+              <div style={{
+                height: '100%', width: `${pct}%`, borderRadius: 'var(--radius-sm)',
+                background: g >= 9 ? 'var(--ink)' : g >= 7 ? 'var(--ink-2)' : g >= 5 ? 'var(--ink-3)' : 'var(--ink-4)',
+                transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                transitionDelay: `${(10 - g) * 40}ms`,
+                display: 'flex', alignItems: 'center', paddingLeft: 'var(--sp-2)',
+              }}>
+                {count > 0 && (
+                  <span style={{
+                    fontSize: 'var(--text-2xs)', fontWeight: 700,
+                    color: pct > 30 ? 'var(--surface)' : 'var(--ink)',
+                    fontVariantNumeric: 'tabular-nums',
+                  }}>
+                    {count}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div style={{
+              width: '20px', fontSize: 'var(--text-2xs)', color: 'var(--ink-4)',
+              flexShrink: 0,
+            }}>
+              {count}
+            </div>
+          </div>
+        );
+      })}
+
+      {/* Summary */}
+      <div style={{
+        display: 'flex', justifyContent: 'space-between',
+        paddingTop: 'var(--sp-2)', borderTop: '1px solid var(--border)',
+        fontSize: 'var(--text-2xs)', color: 'var(--ink-4)',
+      }}>
+        <span>{valid.length} subjects</span>
+        <span>
+          Avg {(valid.reduce((sum, s) => sum + parseFloat(s.grade as string), 0) / valid.length).toFixed(1)}
+        </span>
+      </div>
+    </div>
   );
-
-  const data = {
-    labels: sorted.map(s => s.name),
-    datasets: [
-      {
-        label: 'Grade Points',
-        data: sorted.map(s => parseFloat(s.grade as string)),
-        backgroundColor: sorted.map(s => {
-          const g = parseFloat(s.grade as string);
-          const color = getGradeColor(g);
-          return color + '80'; // Add alpha
-        }),
-        borderColor: sorted.map(s => getGradeColor(parseFloat(s.grade as string))),
-        borderWidth: 2,
-        borderRadius: 4,
-        barThickness: 24,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: true,
-    indexAxis: 'y' as const,
-    scales: {
-      x: {
-        beginAtZero: true,
-        max: 10,
-        grid: { color: 'var(--border)' },
-        ticks: { color: 'var(--ink-faint)' },
-      },
-      y: {
-        grid: { display: false },
-        ticks: { color: 'var(--ink-mid)', font: { size: 9 } },
-      },
-    },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: (context: any) => {
-            const grade = context.raw;
-            const letter = getGradeLetter(grade);
-            const credits = sorted[context.dataIndex]?.credits || '—';
-            return `${letter} · ${grade} pts · ${credits} credits`;
-          },
-        },
-      },
-    },
-  };
-
-  return <Bar data={data} options={options} />;
 }

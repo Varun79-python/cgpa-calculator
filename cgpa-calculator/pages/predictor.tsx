@@ -13,22 +13,13 @@ export default function PredictorPage() {
 
   return (
     <>
-      <Head>
-        <title>CGPA Goal Predictor — {label} GPA Suite</title>
-        <meta name="description" content={`Predict the SGPA you need to achieve your target CGPA for ${label} students.`} />
-      </Head>
-
+      <Head><title>Predictor — {label} GPA Suite</title></Head>
       <div className="app">
         <Header />
         <Tabs />
-        
-        <main className="panel active">
-          <GoalPredictor />
-        </main>
-
+        <main id="main-content"><GoalPredictor /></main>
         <Footer />
       </div>
-
       <HistorySidebar />
     </>
   );

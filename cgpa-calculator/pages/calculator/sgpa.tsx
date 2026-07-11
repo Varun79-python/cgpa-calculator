@@ -22,7 +22,7 @@ export default function SGPAPage() {
         <Header />
         <Tabs />
         
-        <main className="panel active">
+        <main id="main-content">
           <SGPAForm />
         </main>
 

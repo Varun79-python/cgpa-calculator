@@ -22,7 +22,7 @@ export default function ConverterPage() {
         <Header />
         <Tabs />
         
-        <main className="panel active">
+        <main id="main-content">
           <Converter />
         </main>
 

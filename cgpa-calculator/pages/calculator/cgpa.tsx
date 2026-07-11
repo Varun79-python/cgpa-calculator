@@ -22,7 +22,7 @@ export default function CGPAPage() {
         <Header />
         <Tabs />
         
-        <main className="panel active">
+        <main id="main-content">
           <CGPAForm />
         </main>
 

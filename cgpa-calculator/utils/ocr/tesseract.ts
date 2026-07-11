@@ -21,7 +21,7 @@ const GRADE_MAP: Record<string, number> = {
 
 const GRADE_KEYS = Object.keys(GRADE_MAP).sort((a, b) => b.length - a.length);
 
-const MAX_CREDITS = 6;
+const MAX_CREDITS = 12; // Must cover project/thesis work (up to 12cr)
 const MIN_CREDITS = 0.5;
 
 const SKIP_LINES = /^(sem|sub|grade|credit|total|result|sgpa|cgpa|page|roll|name|reg|univ|code|©|year|elect|batch|regular|supplementary|remedial|pass|fail|honors|minor|total\s+credits|total\s+points)/i;
@@ -50,6 +50,14 @@ function normalizeGrade(g: string): string | null {
 }
 
 function normalizeCredits(rawStr: string): number {
+  // Step 0: Handle OCR misread of "0.5" as "05" (parseFloat("05") = 5, silently wrong)
+  // If raw string starts with "0", has more digits, and no decimal point, try "0.X" first.
+  if (rawStr.startsWith('0') && rawStr.length > 1 && !rawStr.includes('.') && /^\d+$/.test(rawStr)) {
+    const rest = rawStr.slice(1);
+    const d = parseFloat('0.' + rest);
+    if (!isNaN(d) && d >= MIN_CREDITS && d <= MAX_CREDITS) return d;
+  }
+
   // Step 1: Direct parse (handles "0.5", "1", "2", "3", "1.5" etc.)
   const c = parseFloat(rawStr);
   if (!isNaN(c) && c >= MIN_CREDITS && c <= MAX_CREDITS) return c;
@@ -178,7 +186,7 @@ export function parseTranscript(text: string): Subject[] {
 
     let j = i + 1;
     let contCount = 0;
-    while (j < lines.length && contCount < 4) {
+    while (j < lines.length && contCount < 6) {
       const next = lines[j].trim();
       if (next.length < 2) { j++; continue; }
       if (/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec):/i.test(next)) { j++; continue; }

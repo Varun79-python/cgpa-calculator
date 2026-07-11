@@ -13,84 +13,56 @@ export default function ExportPage() {
   const { history } = useHistoryStore();
   const degree = useDegreeStore(s => s.degree);
   const label = DEGREE_CONFIG[degree].label;
-  const [selectedEntry, setSelectedEntry] = useState<string>('latest');
+  const [selectedEntry, setSelectedEntry] = useState('latest');
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [type, setType] = useState('GPA');
   const [subjects, setSubjects] = useState<Subject[] | undefined>(undefined);
 
   useEffect(() => {
     if (selectedEntry === 'latest' && history.length > 0) {
-      const entry = history[0];
-      setResult({ num: entry.score, pct: entry.percentage, meta: entry.subtitle });
-      setType(entry.type);
-      setSubjects(undefined);
+      const e = history[0];
+      setResult({ num: e.score, pct: e.percentage, meta: e.subtitle });
+      setType(e.type); setSubjects(undefined);
     } else if (selectedEntry !== 'latest') {
-      const entry = history.find(e => e.id === selectedEntry);
-      if (entry) {
-        setResult({ num: entry.score, pct: entry.percentage, meta: entry.subtitle });
-        setType(entry.type);
-        setSubjects(entry.subjects);
-      }
-    } else {
-      setResult(null);
-      setType('GPA');
-      setSubjects(undefined);
-    }
+      const e = history.find(x => x.id === selectedEntry);
+      if (e) { setResult({ num: e.score, pct: e.percentage, meta: e.subtitle }); setType(e.type); setSubjects(e.subjects); }
+    } else { setResult(null); setType('GPA'); setSubjects(undefined); }
   }, [selectedEntry, history]);
 
   return (
     <>
-      <Head>
-        <title>Export PDF Report — {label} GPA Suite</title>
-        <meta name="description" content={`Generate a professional PDF academic report for ${label} students.`} />
-      </Head>
-
+      <Head><title>Export — {label} GPA Suite</title></Head>
       <div className="app">
         <Header />
         <Tabs />
-        
-        <main className="panel active space-y-6">
-          <div className="sec-head">
-            <div className="sec-title">
+        <main id="main-content" className="panel">
+          <div className="sec-header">
+            <span className="sec-label">
               <span className="sec-icon"><i className="fa-solid fa-file-pdf" /></span>
-              <span>Export Academic Report</span>
-            </div>
+              Export Report
+            </span>
           </div>
 
-          {/* Select entry to export */}
           {history.length > 0 && (
-            <div className="p-4 bg-[var(--surface)] border border-[var(--border)]">
-              <label className="block text-xs font-semibold uppercase tracking-wide text-[var(--ink-mid)] mb-2">
-                Select Calculation to Export
-              </label>
-              <select
-                value={selectedEntry}
-                onChange={(e) => setSelectedEntry(e.target.value)}
-                className="w-full p-3 bg-[var(--bg)] border border-[var(--border)] text-[var(--ink)] text-sm"
-              >
+            <div style={{ marginBottom: 'var(--sp-4)' }}>
+              <label style={{ display: 'block', fontSize: 'var(--text-2xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--ink-4)', marginBottom: 'var(--sp-2)' }}>Select Calculation</label>
+              <select value={selectedEntry} onChange={(e) => setSelectedEntry(e.target.value)} className="input">
                 <option value="latest">Latest Calculation</option>
-                {history.map(entry => (
-                  <option key={entry.id} value={entry.id}>
-                    {entry.type}: {entry.score.toFixed(2)} — {entry.date}
-                  </option>
-                ))}
+                {history.map(e => <option key={e.id} value={e.id}>{e.type}: {e.score.toFixed(2)} — {e.date}</option>)}
               </select>
             </div>
           )}
 
-          {result ? (
-            <ReportTemplate result={result} type={type} subjects={subjects} />
-          ) : (
-            <div className="text-center py-12 text-[var(--ink-faint)]">
-              <i className="fa-solid fa-file-pdf text-4xl mb-3 opacity-50" />
-              <p>No calculations yet. Calculate something first, then come back to export.</p>
+          {result ? <ReportTemplate result={result} type={type} subjects={subjects} /> : (
+            <div className="empty-state">
+              <div className="empty-icon"><i className="fa-solid fa-file-pdf" /></div>
+              <div className="empty-title">No calculations yet</div>
+              <div className="empty-desc">Calculate something first, then export.</div>
             </div>
           )}
         </main>
-
         <Footer />
       </div>
-
       <HistorySidebar />
     </>
   );

@@ -3,7 +3,7 @@ import { Subject, HistoryEntry, DegreeType } from '@/types';
 import { STORAGE_KEYS, DEGREE_ORDER, DEGREE_CONFIG } from '@/config/constants';
 import { getStorageItem, setStorageItem } from '@/utils/storage/localStorage';
 
-type ThemeMode = 'light' | 'dark' | 'black' | 'white';
+type ThemeMode = 'light' | 'dark' | 'system';
 
 interface ThemeState {
   theme: ThemeMode;
@@ -40,13 +40,13 @@ interface DegreeState {
 }
 
 /** Ordered list for cycling themes */
-const THEME_CYCLE: ThemeMode[] = ['light', 'dark', 'black', 'white'];
+const THEME_CYCLE: ThemeMode[] = ['light', 'dark', 'system'];
 
 function getInitialTheme(): ThemeMode {
   if (typeof window === 'undefined') return 'light';
   const saved = localStorage.getItem('cgpa-theme-mode') as ThemeMode | null;
   if (saved && THEME_CYCLE.includes(saved)) return saved;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return 'system';
 }
 
 export const useThemeStore = create<ThemeState>((set, get) => ({
@@ -69,8 +69,13 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
 /** Apply the theme class to <html> and remove all others */
 export function applyThemeClass(theme: ThemeMode) {
   const root = document.documentElement;
-  root.classList.remove('light', 'dark', 'black', 'white');
-  if (theme !== 'light') root.classList.add(theme);
+  root.classList.remove('light', 'dark');
+  if (theme === 'system') {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    root.classList.add(prefersDark ? 'dark' : 'light');
+  } else if (theme === 'dark') {
+    root.classList.add('dark');
+  }
 }
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
