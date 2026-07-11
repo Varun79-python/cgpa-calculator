@@ -5,24 +5,42 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development',
   register: true,
   skipWaiting: true,
+  clientsClaim: true,
   runtimeCaching: [
+    // HTML pages: NetworkFirst = try live first (admin updates), fall back to cache (offline)
+    {
+      urlPattern: /^https:\/\/cgpa-calculator\.vercel\.app\/.*$/,
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'cgpa-pages-v4',
+        expiration: { maxEntries: 60, maxAgeSeconds: 30 * 24 * 60 * 60 },
+        networkTimeoutSeconds: 5,
+      },
+    },
+    // JS/CSS bundles: StaleWhileRevalidate = serve cached instantly, update in background
+    {
+      urlPattern: /\.(?:js|css|woff2?)$/,
+      handler: 'StaleWhileRevalidate',
+      options: { cacheName: 'cgpa-static-v4' },
+    },
+    // Images: CacheFirst = always serve from cache, never re-download
+    {
+      urlPattern: /\.(?:png|jpg|jpeg|webp|svg|ico|gif)$/,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'cgpa-images-v4',
+        expiration: { maxEntries: 100, maxAgeSeconds: 90 * 24 * 60 * 60 },
+      },
+    },
+    // API/data: NetworkFirst with short timeout
     {
       urlPattern: /^https?.*/,
       handler: 'NetworkFirst',
       options: {
-        cacheName: 'cgpa-cache-v3',
-        expiration: { maxEntries: 50, maxAgeSeconds: 7 * 24 * 60 * 60 },
+        cacheName: 'cgpa-data-v4',
+        networkTimeoutSeconds: 3,
+        expiration: { maxEntries: 30, maxAgeSeconds: 7 * 24 * 60 * 60 },
       },
-    },
-    {
-      urlPattern: /\.(?:js|css|woff2?)$/,
-      handler: 'StaleWhileRevalidate',
-      options: { cacheName: 'cgpa-static-v3' },
-    },
-    {
-      urlPattern: /\.(?:png|svg|ico)$/,
-      handler: 'CacheFirst',
-      options: { cacheName: 'cgpa-images-v3' },
     },
   ],
 });

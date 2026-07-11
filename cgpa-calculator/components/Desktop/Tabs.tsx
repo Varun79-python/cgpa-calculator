@@ -9,25 +9,35 @@ const TABS = [
   { id: '/export', label: 'Export PDF', icon: 'fa-solid fa-file-pdf' },
 ];
 
+function TabButton({ tab, currentPath, router }: { tab: typeof TABS[0]; currentPath: string; router: any }) {
+  return (
+    <button
+      role="tab"
+      aria-selected={currentPath === tab.id}
+      className={`tab ${currentPath === tab.id ? 'active' : ''}`}
+      onClick={() => router.push(tab.id)}
+    >
+      <i className={tab.icon} aria-hidden="true" />
+      <span className="tab-label">{tab.label}</span>
+    </button>
+  );
+}
+
 export default function DesktopTabs() {
   const router = useRouter();
   const currentPath = router.pathname;
 
   return (
-    <div className="tabs-marquee tabs-marquee--static">
-      <div className="tabs-marquee-track" style={{ width: '100%', justifyContent: 'center' }}>
+    <div className="tabs-marquee">
+      <div className="tabs-marquee-track">
         <div className="tabs-marquee-content" style={{ gap: 'var(--sp-1)' }}>
           {TABS.map((t) => (
-            <button
-              key={t.id}
-              role="tab"
-              aria-selected={currentPath === t.id}
-              className={`tab ${currentPath === t.id ? 'active' : ''}`}
-              onClick={() => router.push(t.id)}
-            >
-              <i className={t.icon} aria-hidden="true" />
-              <span className="tab-label">{t.label}</span>
-            </button>
+            <TabButton key={t.id} tab={t} currentPath={currentPath} router={router} />
+          ))}
+        </div>
+        <div className="tabs-marquee-content" style={{ gap: 'var(--sp-1)' }} aria-hidden="true">
+          {TABS.map((t) => (
+            <TabButton key={`dup-${t.id}`} tab={t} currentPath={currentPath} router={router} />
           ))}
         </div>
       </div>

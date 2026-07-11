@@ -19,6 +19,26 @@ export default function App({ Component, pageProps }: AppProps) {
     const theme = useThemeStore.getState().theme;
     applyThemeClass(theme);
     setDisplayComponent(true);
+
+    // Register service worker and listen for updates
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').then((reg) => {
+        // Check for updates every 30 minutes
+        setInterval(() => reg.update(), 30 * 60 * 1000);
+
+        // When a new SW is installed and waiting, activate it immediately
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New content available — skip waiting so it activates on next load
+              (newWorker as any).skipWaiting();
+            }
+          });
+        });
+      }).catch(() => {});
+    }
   }, []);
 
   useEffect(() => {

@@ -408,7 +408,11 @@
     gap: var(--sp-4);
   }
 
-  /* Tabs static */
+  /* Tabs marquee */
+  .tabs-marquee-track {
+    animation: marqueeScroll 28s linear infinite;
+  }
+
   .tab {
     flex: 0 0 auto;
     padding: 0 var(--sp-4);

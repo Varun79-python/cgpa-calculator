@@ -4,7 +4,7 @@
   "description": "Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline. Free for Diploma, Degree, B.Tech & M.Tech students.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F7F9F8",
+  "background_color": "#FAFAFA",
   "theme_color": "#059669",
   "orientation": "portrait-primary",
   "categories": ["education", "utilities"],
@@ -40,11 +40,6 @@
       "label": "CGPA Calculator Mobile"
     }
   ],
-  "related_applications": [
-    {
-      "platform": "webapp",
-      "url": "https://cgpa-calculator.vercel.app/manifest.json"
-    }
-  ],
+  "related_applications": [],
   "prefer_related_applications": false
 }

@@ -33,7 +33,6 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
           <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-          <meta name="apple-mobile-web-app-title" content="CGPA Calc" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link
@@ -48,10 +47,16 @@ export default class MyDocument extends Document {
             referrerPolicy="no-referrer"
           />
           <meta name="description" content="Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline. Free for Diploma, Degree, B.Tech & M.Tech students." />
-          <meta name="theme-color" content="#0D1F1A" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="theme-color" content="#059669" />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-title" content="CGPA Calc" />
+          <meta name="application-name" content="CGPA Calc" />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="msapplication-tap-highlight" content="no" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
           {/* Open Graph */}
           <meta property="og:type" content="website" />
