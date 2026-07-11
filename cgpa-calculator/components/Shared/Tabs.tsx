@@ -10,6 +10,20 @@ const TABS = [
   { id: '/export', label: 'Export', icon: 'fa-solid fa-file-pdf' },
 ];
 
+function TabButton({ tab, currentPath, router }: { tab: typeof TABS[0]; currentPath: string; router: any }) {
+  return (
+    <button
+      role="tab"
+      aria-selected={currentPath === tab.id}
+      className={`tab ${currentPath === tab.id ? 'active' : ''}`}
+      onClick={() => router.push(tab.id)}
+    >
+      <i className={tab.icon} aria-hidden="true" />
+      <span className="tab-label">{tab.label}</span>
+    </button>
+  );
+}
+
 export default function Tabs() {
   const router = useRouter();
   const currentPath = router.pathname;
@@ -22,44 +36,16 @@ export default function Tabs() {
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className={`tabs-marquee-track ${isPaused ? 'paused' : ''}`}>
-        {/* First set */}
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            role="tab"
-            aria-selected={currentPath === t.id}
-            className={`tab ${currentPath === t.id ? 'active' : ''}`}
-            onClick={() => router.push(t.id)}
-          >
-            <i className={t.icon} aria-hidden="true" />
-            <span className="tab-label">{t.label}</span>
-          </button>
-        ))}
-        {/* Duplicate sets for seamless loop */}
-        {TABS.map((t) => (
-          <button
-            key={`dup1-${t.id}`}
-            role="tab"
-            aria-selected={currentPath === t.id}
-            className={`tab ${currentPath === t.id ? 'active' : ''}`}
-            onClick={() => router.push(t.id)}
-          >
-            <i className={t.icon} aria-hidden="true" />
-            <span className="tab-label">{t.label}</span>
-          </button>
-        ))}
-        {TABS.map((t) => (
-          <button
-            key={`dup2-${t.id}`}
-            role="tab"
-            aria-selected={currentPath === t.id}
-            className={`tab ${currentPath === t.id ? 'active' : ''}`}
-            onClick={() => router.push(t.id)}
-          >
-            <i className={t.icon} aria-hidden="true" />
-            <span className="tab-label">{t.label}</span>
-          </button>
-        ))}
+        <div className="tabs-marquee-content">
+          {TABS.map((t) => (
+            <TabButton key={t.id} tab={t} currentPath={currentPath} router={router} />
+          ))}
+        </div>
+        <div className="tabs-marquee-content" aria-hidden="true">
+          {TABS.map((t) => (
+            <TabButton key={`dup-${t.id}`} tab={t} currentPath={currentPath} router={router} />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -5,20 +5,20 @@ interface BannerProps {
   alt?: string;
 }
 
-export default function Banner({ src = '/banner.jpg', alt = 'CGPA Calculator Banner' }: BannerProps) {
+export default function Banner({ src = '/banner.svg', alt = 'CGPA Calculator Banner' }: BannerProps) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  // Don't render if image fails to load
   if (error) return null;
 
   return (
     <div style={{
       width: '100%',
       overflow: 'hidden',
-      borderRadius: 'var(--radius-lg)',
-      background: 'var(--surface-2)',
+      borderRadius: 'var(--radius-xl)',
+      background: 'linear-gradient(135deg, #050510, #0A0A2E)',
       display: loaded ? 'block' : 'none',
+      boxShadow: 'var(--shadow-xl)',
     }}>
       <img
         src={src}
