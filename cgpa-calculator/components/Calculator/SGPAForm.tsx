@@ -16,6 +16,8 @@ export default function SGPAForm() {
   const [rows, setRows] = useState<Subject[]>([{ id: 1, name: '', credits: '', grade: '' }]);
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [showUpload, setShowUpload] = useState(false);
+  const [showBulkImport, setShowBulkImport] = useState(false);
+  const [bulkText, setBulkText] = useState('');
   const [exporting, setExporting] = useState(false);
   const addEntry = useHistoryStore(s => s.addEntry);
   const { loading, progress, processImage, reset: resetOCR } = useOCR();
@@ -114,6 +116,35 @@ export default function SGPAForm() {
       setExporting(false);
     }
   }, [result, rows]);
+
+  const handleBulkImport = useCallback(() => {
+    if (!bulkText.trim()) {
+      showToast('Paste your data first', 'error');
+      return;
+    }
+    const lines = bulkText.trim().split('\n');
+    const newRows: Subject[] = [];
+    lines.forEach((line, i) => {
+      const parts = line.split(/[,\t|]/).map(p => p.trim());
+      if (parts.length >= 2) {
+        newRows.push({
+          id: Date.now() + i,
+          name: parts[0] || '',
+          credits: parts[1] || '',
+          grade: parts[2] || parts[1] || '',
+        });
+      }
+    });
+    if (newRows.length > 0) {
+      setRows(newRows);
+      setResult(null);
+      setShowBulkImport(false);
+      setBulkText('');
+      showToast(`Imported ${newRows.length} subjects`, 'success');
+    } else {
+      showToast('No valid data found', 'error');
+    }
+  }, [bulkText]);
 
   // OCR state
   const [ocrPreview, setOcrPreview] = useState<string | null>(null);
@@ -217,6 +248,9 @@ export default function SGPAForm() {
           <button className={`btn ${showUpload ? 'btn-primary' : ''}`} onClick={() => setShowUpload(v => !v)}>
             <i className="fa-solid fa-camera" /> Scan
           </button>
+          <button className={`btn ${showBulkImport ? 'btn-primary' : ''}`} onClick={() => setShowBulkImport(v => !v)}>
+            <i className="fa-solid fa-paste" /> Paste
+          </button>
         </div>
       </div>
 
@@ -264,6 +298,45 @@ export default function SGPAForm() {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Bulk Import */}
+      {showBulkImport && (
+        <div style={{ marginBottom: 'var(--sp-4)', padding: 'var(--sp-4)', background: 'var(--surface-2)', borderRadius: 'var(--radius-lg)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--sp-3)' }}>
+            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600 }}>Paste Subjects (CSV/Tab separated)</span>
+            <button className="rm-btn" onClick={() => { setShowBulkImport(false); setBulkText(''); }}><i className="fa-solid fa-xmark" /></button>
+          </div>
+          <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--ink-4)', marginBottom: 'var(--sp-2)' }}>
+            Format: Subject Name, Credits, Grade (one per line)
+          </div>
+          <textarea
+            value={bulkText}
+            onChange={(e) => setBulkText(e.target.value)}
+            placeholder={"Mathematics, 4, 9\nPhysics, 3, 8\nChemistry, 3, 7"}
+            style={{
+              width: '100%',
+              height: '100px',
+              padding: 'var(--sp-3)',
+              border: '1px solid var(--border-solid)',
+              borderRadius: 'var(--radius-md)',
+              background: 'var(--surface)',
+              color: 'var(--ink)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: 'var(--text-xs)',
+              resize: 'vertical',
+              outline: 'none',
+            }}
+          />
+          <div style={{ display: 'flex', gap: 'var(--sp-2)', marginTop: 'var(--sp-3)' }}>
+            <button className="btn btn-sm btn-primary" onClick={handleBulkImport}>
+              <i className="fa-solid fa-file-import" /> Import
+            </button>
+            <button className="btn btn-sm" onClick={() => { setBulkText(''); }}>
+              <i className="fa-solid fa-rotate-left" /> Clear
+            </button>
+          </div>
         </div>
       )}
 

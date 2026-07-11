@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { ToastContainer } from '@/components/Shared/Toast';
 import CommandPalette from '@/components/CommandPalette/CommandPalette';
 import NetworkStatus from '@/components/Shared/NetworkStatus';
+import ErrorBoundary from '@/components/Shared/ErrorBoundary';
 import { useThemeStore, applyThemeClass } from '@/store/useStore';
 import '@/styles/globals.css';
 
@@ -32,14 +33,16 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router]);
 
   return (
-    <div
-      className={`page-transition ${isTransitioning ? 'page-exit' : 'page-enter'}`}
-      style={{ minHeight: '100vh', opacity: displayComponent ? 1 : 0, transition: 'opacity 0.2s ease' }}
-    >
-      <Component {...pageProps} />
-      <ToastContainer />
-      <CommandPalette />
-      <NetworkStatus />
-    </div>
+    <ErrorBoundary>
+      <div
+        className={`page-transition ${isTransitioning ? 'page-exit' : 'page-enter'}`}
+        style={{ minHeight: '100vh', opacity: displayComponent ? 1 : 0, transition: 'opacity 0.2s ease' }}
+      >
+        <Component {...pageProps} />
+        <ToastContainer />
+        <CommandPalette />
+        <NetworkStatus />
+      </div>
+    </ErrorBoundary>
   );
 }
