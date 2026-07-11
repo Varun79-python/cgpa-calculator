@@ -59,7 +59,7 @@ export default function Dashboard() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gridTemplateColumns: 'repeat(2, 1fr)',
             gap: 'var(--sp-4)',
           }}>
             {FEATURES.map((f, i) => (
