@@ -78,27 +78,6 @@ export default function MobileHeader() {
           </div>
         </div>
         <div className="header-actions">
-          {/* Hamburger trigger */}
-          <button
-            ref={triggerRef}
-            onClick={() => setDrawerOpen(o => !o)}
-            aria-label="Open navigation menu"
-            aria-expanded={drawerOpen}
-            className="icon-btn"
-            style={{
-              width: '34px',
-              height: '34px',
-              padding: 0,
-              background: drawerOpen ? 'var(--accent)' : 'var(--surface)',
-              color: drawerOpen ? '#FFFFFF' : 'var(--ink-3)',
-              borderColor: drawerOpen ? 'var(--accent)' : 'var(--border)',
-            }}
-          >
-            <span style={{ display: 'block', width: '14px', height: '2px', borderRadius: '1px', background: 'currentColor', transition: 'all 0.15s ease', transform: drawerOpen ? 'translateY(5px) rotate(45deg)' : 'none' }} />
-            <span style={{ display: 'block', width: '14px', height: '2px', borderRadius: '1px', background: 'currentColor', transition: 'opacity 0.15s ease', opacity: drawerOpen ? 0 : 1 }} />
-            <span style={{ display: 'block', width: '14px', height: '2px', borderRadius: '1px', background: 'currentColor', transition: 'all 0.15s ease', transform: drawerOpen ? 'translateY(-5px) rotate(-45deg)' : 'none' }} />
-          </button>
-
           <DegreeSwitcher />
           <button
             className="icon-btn"
@@ -130,74 +109,94 @@ export default function MobileHeader() {
             <i className="fa-solid fa-download" />
           </button>
           <ThemeToggle />
+
+          {/* Hamburger — rightmost (like varunsonline.com) */}
+          <button
+            ref={triggerRef}
+            onClick={() => setDrawerOpen(o => !o)}
+            aria-label="Open navigation menu"
+            aria-expanded={drawerOpen}
+            className="icon-btn"
+            style={{
+              width: '34px',
+              height: '34px',
+              padding: 0,
+              background: 'var(--surface)',
+              color: 'var(--ink-3)',
+              borderColor: 'var(--border)',
+            }}
+          >
+            <span style={{ display: 'block', width: '14px', height: '2px', borderRadius: '1px', background: 'currentColor', marginBottom: '3px' }} />
+            <span style={{ display: 'block', width: '14px', height: '2px', borderRadius: '1px', background: 'currentColor', marginBottom: '3px' }} />
+            <span style={{ display: 'block', width: '14px', height: '2px', borderRadius: '1px', background: 'currentColor' }} />
+          </button>
         </div>
       </header>
 
-      {/* ─── DRAWER OVERLAY ─── */}
-      {drawerOpen && (
-        <div style={{
+      {/* ─── OVERLAY ─── */}
+      <div
+        style={{
           position: 'fixed',
           inset: 0,
-          background: 'rgba(0,0,0,0.3)',
+          background: 'rgba(0,0,0,0.35)',
           zIndex: 40,
-        }} onClick={() => setDrawerOpen(false)} />
-      )}
+          opacity: drawerOpen ? 1 : 0,
+          pointerEvents: drawerOpen ? 'auto' : 'none',
+          transition: 'opacity 0.25s ease',
+        }}
+        onClick={() => setDrawerOpen(false)}
+      />
 
-      {/* ─── DRAWER ─── */}
+      {/* ─── RIGHT SIDE DRAWER (like varunsonline.com) ─── */}
       <div
         ref={drawerRef}
         role="dialog"
         aria-label="Navigation menu"
         style={{
           position: 'fixed',
-          bottom: 0,
-          left: 0,
+          top: 0,
           right: 0,
-          transform: drawerOpen ? 'translateY(0)' : 'translateY(100%)',
-          opacity: drawerOpen ? 1 : 0,
-          pointerEvents: drawerOpen ? 'auto' : 'none',
-          width: '100%',
-          maxHeight: '75vh',
+          bottom: 0,
+          width: '300px',
+          maxWidth: '85vw',
           zIndex: 50,
           background: 'var(--bg)',
-          borderTop: '1px solid var(--border-solid)',
-          borderRadius: 'var(--radius-xl) var(--radius-xl) 0 0',
-          boxShadow: 'var(--shadow-2xl)',
+          borderLeft: '1px solid var(--border-solid)',
+          boxShadow: '-4px 0 24px rgba(0,0,0,0.1)',
+          transform: drawerOpen ? 'translateX(0)' : 'translateX(100%)',
+          opacity: drawerOpen ? 1 : 0,
+          pointerEvents: drawerOpen ? 'auto' : 'none',
           transition: 'opacity 0.2s ease, transform 0.3s var(--ease-out)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
         }}
       >
-        {/* Drag handle */}
-        <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--sp-2) 0 var(--sp-1)' }}>
-          <div style={{ width: '36px', height: '4px', borderRadius: '2px', background: 'var(--surface-4)' }} />
-        </div>
-
         {/* Header */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: 'var(--sp-2) var(--sp-4) var(--sp-3)',
+          padding: 'var(--sp-3) var(--sp-4)',
           borderBottom: '1px solid var(--border-solid)',
+          minHeight: '52px',
         }}>
-          <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)' }}>
+          <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700 }}>
             <span style={{ color: 'var(--ink)' }}>CGPA</span>{' '}
             <span style={{ color: 'var(--accent)' }}>Calculator</span>
           </span>
           <button
             onClick={() => setDrawerOpen(false)}
             className="icon-btn"
-            style={{ width: '28px', height: '28px' }}
+            style={{ width: '28px', height: '28px', padding: 0 }}
             aria-label="Close menu"
           >
-            <i className="fa-solid fa-xmark" style={{ fontSize: '0.7rem' }} />
+            <i className="fa-solid fa-xmark" style={{ fontSize: '0.75rem' }} />
           </button>
         </div>
 
         {/* Nav groups */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--sp-3) var(--sp-4)' }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--sp-3) var(--sp-3)' }}>
           {NAV_GROUPS.map((group) => (
             <div key={group.label} style={{ marginBottom: 'var(--sp-4)' }}>
               <div style={{
@@ -206,11 +205,12 @@ export default function MobileHeader() {
                 textTransform: 'uppercase',
                 letterSpacing: '0.06em',
                 color: 'var(--ink-4)',
-                marginBottom: 'var(--sp-2)',
+                marginBottom: 'var(--sp-1)',
+                padding: 'var(--sp-1) var(--sp-2)',
               }}>
                 {group.label}
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
                 {group.items.map((item) => {
                   const isAccent = 'accent' in item && item.accent;
                   const isExternal = 'href' in item;
@@ -229,7 +229,7 @@ export default function MobileHeader() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 'var(--sp-2)',
-                        padding: 'var(--sp-2) var(--sp-3)',
+                        padding: 'var(--sp-2) var(--sp-2)',
                         borderRadius: 'var(--radius-md)',
                         fontSize: 'var(--text-xs)',
                         fontWeight: isAccent ? 600 : 500,
@@ -256,7 +256,7 @@ export default function MobileHeader() {
           ))}
         </div>
 
-        {/* Footer note */}
+        {/* Footer */}
         <div style={{
           padding: 'var(--sp-3) var(--sp-4)',
           borderTop: '1px solid var(--border-solid)',

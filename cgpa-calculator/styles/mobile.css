@@ -19,7 +19,6 @@ body {
   border-radius: 0;
   border: none;
   box-shadow: none;
-  min-height: 100vh;
 }
 
 /* ─── HEADER ─── */
@@ -342,7 +341,7 @@ td input, td select {
 
 /* ─── FOOTER ─── */
 .app-footer {
-  padding: var(--sp-3) var(--sp-4);
+  padding: var(--sp-3) var(--sp-4) var(--sp-2);
   font-size: 0.6rem;
 }
 

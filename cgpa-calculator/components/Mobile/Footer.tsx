@@ -15,7 +15,7 @@ export default function MobileFooter() {
         {/* Bottom */}
         <div style={{ textAlign: 'center', paddingTop: 'var(--sp-2)', borderTop: '1px solid var(--border)' }}>
           <div style={{ fontSize: '0.55rem', color: 'var(--ink-4)' }}>
-            © 2026 CGPA Calculator · No data leaves your device
+            © 2026 CGPA Calculator · All calculations run locally · No data leaves your device
           </div>
         </div>
       </div>
