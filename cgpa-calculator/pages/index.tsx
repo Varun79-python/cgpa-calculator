@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Header from '@/components/Shared/Header';
 import Footer from '@/components/Shared/Footer';
 import Tabs from '@/components/Shared/Tabs';
+import BannerCarousel from '@/components/Shared/BannerCarousel';
 import HistorySidebar from '@/components/History/HistorySidebar';
 import { useDegreeStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
@@ -33,7 +34,7 @@ export default function Dashboard() {
         <meta name="description" content={`Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline. Free for ${label} students.`} />
       </Head>
 
-      <div className="app" style={{ border: 'none', borderRadius: 0, boxShadow: 'none' }}>
+      <div className="app">
         <Header />
         <Tabs />
 
@@ -97,6 +98,11 @@ export default function Dashboard() {
               <span>Calculate CGPA</span>
             </button>
           </div>
+        </div>
+
+        {/* Banner Carousel */}
+        <div style={{ padding: 'var(--sp-4) 0' }}>
+          <BannerCarousel folder="/banners" interval={4000} />
         </div>
 
         {/* Features Grid */}

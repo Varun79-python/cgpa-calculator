@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="400" fill="url(#bg3)"/>
+  <ellipse cx="900" cy="200" rx="300" ry="200" fill="#10B981" opacity="0.08"/>
+  <text x="100" y="170" font-family="Outfit, system-ui, sans-serif" font-size="42" font-weight="800" fill="white" letter-spacing="-2">100% Offline</text>
+  <text x="100" y="220" font-family="Inter, system-ui, sans-serif" font-size="18" fill="white" fill-opacity="0.5">No data leaves your device. All calculations run locally.</text>
+  <text x="100" y="280" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#10B981">✓ Works without internet</text>
+  <text x="100" y="310" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#10B981">✓ Data stays on your device</text>
+  <text x="100" y="340" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#10B981">✓ Export PDF reports</text>
+</svg>

@@ -145,6 +145,7 @@ body {
 
 .app {
   width: 100%;
+  max-width: 100%;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
@@ -325,6 +326,96 @@ body {
 /* Hide scrollbar */
 .tabs-marquee::-webkit-scrollbar { display: none; }
 .tabs-marquee { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ═══ BANNER CAROUSEL ═══ */
+.banner-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  margin: 0 var(--sp-4);
+}
+
+.banner-carousel-track {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 6;
+  overflow: hidden;
+}
+
+.banner-carousel-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.banner-carousel-slide.active {
+  opacity: 1;
+}
+
+.banner-carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-carousel-prev,
+.banner-carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.9);
+  border: none;
+  color: var(--ink);
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+  box-shadow: var(--shadow-md);
+}
+
+.banner-carousel:hover .banner-carousel-prev,
+.banner-carousel:hover .banner-carousel-next {
+  opacity: 1;
+}
+
+.banner-carousel-prev { left: 12px; }
+.banner-carousel-next { right: 12px; }
+
+.banner-carousel-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.banner-carousel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.banner-carousel-dot.active {
+  background: white;
+  width: 18px;
+  border-radius: 3px;
+}
 
 /* ═══ PANELS ═══ */
 .panel {
@@ -1497,7 +1588,7 @@ aside {
     border-radius: var(--radius-xl);
     border: 1px solid var(--border-solid);
     box-shadow: var(--shadow-lg);
-    max-width: 680px;
+    max-width: 100%;
     margin: 0 auto;
   }
 
