@@ -1,10 +1,10 @@
 import { DegreeType, DegreeConfig } from '@/types';
 
-/** University-specific grading schemas */
+/** University-specific grading schemas — CBCS 10-point scale */
 export interface GradingSchema {
   id: string;
   name: string;
-  grades: { label: string; value: number }[];
+  grades: { label: string; value: number; description: string }[];
   maxCredits: number;
   minCredits: number;
   passGrade: number;
@@ -14,15 +14,15 @@ export interface GradingSchema {
 export const GRADING_SCHEMAS: GradingSchema[] = [
   {
     id: 'standard',
-    name: 'Standard (Most Universities)',
+    name: 'Standard CBCS (Most Universities)',
     grades: [
-      { label: 'O / S / A+ — 10', value: 10 },
-      { label: 'A — 9', value: 9 },
-      { label: 'B+ / B — 8', value: 8 },
-      { label: 'C+ / C — 7', value: 7 },
-      { label: 'D — 6', value: 6 },
-      { label: 'E — 5', value: 5 },
-      { label: 'F / AB — 0', value: 0 },
+      { label: 'O', value: 10, description: 'Outstanding (≥90%)' },
+      { label: 'A+', value: 9, description: 'Excellent (80-89.99%)' },
+      { label: 'A', value: 8, description: 'Very Good (70-79.99%)' },
+      { label: 'B+', value: 7, description: 'Good (60-69.99%)' },
+      { label: 'B', value: 6, description: 'Above Average (50-59.99%)' },
+      { label: 'C', value: 5, description: 'Average (40-49.99%)' },
+      { label: 'F', value: 0, description: 'Fail (<40%)' },
     ],
     maxCredits: 30,
     minCredits: 0.5,
@@ -31,17 +31,16 @@ export const GRADING_SCHEMAS: GradingSchema[] = [
   },
   {
     id: 'jntu',
-    name: 'JNTU / JNTUH / JNTUK',
+    name: 'JNTU / JNTUH / JNTUK (R22)',
     grades: [
-      { label: 'O — 10', value: 10 },
-      { label: 'S — 9', value: 9 },
-      { label: 'A+ — 8', value: 8 },
-      { label: 'A — 7', value: 7 },
-      { label: 'B+ — 6', value: 6 },
-      { label: 'B — 5', value: 5 },
-      { label: 'C — 4', value: 4 },
-      { label: 'D — 3', value: 3 },
-      { label: 'F — 0', value: 0 },
+      { label: 'O', value: 10, description: 'Outstanding (≥90%)' },
+      { label: 'A+', value: 9, description: 'Excellent (80-89.99%)' },
+      { label: 'A', value: 8, description: 'Very Good (70-79.99%)' },
+      { label: 'B+', value: 7, description: 'Good (60-69.99%)' },
+      { label: 'B', value: 6, description: 'Average (50-59.99%)' },
+      { label: 'C', value: 5, description: 'Pass (40-49.99%)' },
+      { label: 'F', value: 0, description: 'Fail (<40%)' },
+      { label: 'Ab', value: 0, description: 'Absent' },
     ],
     maxCredits: 25,
     minCredits: 1,
@@ -50,15 +49,15 @@ export const GRADING_SCHEMAS: GradingSchema[] = [
   },
   {
     id: 'anna',
-    name: 'Anna University',
+    name: 'Anna University (2021 Regulations)',
     grades: [
-      { label: 'O — 10', value: 10 },
-      { label: 'A+ — 9', value: 9 },
-      { label: 'A — 8', value: 8 },
-      { label: 'B+ — 7', value: 7 },
-      { label: 'B — 6', value: 6 },
-      { label: 'C — 5', value: 5 },
-      { label: 'F — 0', value: 0 },
+      { label: 'O', value: 10, description: 'Outstanding (91-100)' },
+      { label: 'A+', value: 9, description: 'Excellent (81-90)' },
+      { label: 'A', value: 8, description: 'Very Good (71-80)' },
+      { label: 'B+', value: 7, description: 'Good (61-70)' },
+      { label: 'B', value: 6, description: 'Average (51-60)' },
+      { label: 'C', value: 5, description: 'Satisfactory (50 — Min Pass)' },
+      { label: 'RA', value: 0, description: 'Re-Appearance / Fail (<50)' },
     ],
     maxCredits: 28,
     minCredits: 1,
@@ -69,14 +68,14 @@ export const GRADING_SCHEMAS: GradingSchema[] = [
     id: 'vtu',
     name: 'VTU (Visvesvaraya Technological University)',
     grades: [
-      { label: 'O — 10', value: 10 },
-      { label: 'A+ — 9', value: 9 },
-      { label: 'A — 8', value: 8 },
-      { label: 'B+ — 7', value: 7 },
-      { label: 'B — 6', value: 6 },
-      { label: 'C — 5', value: 5 },
-      { label: 'D — 4', value: 4 },
-      { label: 'F — 0', value: 0 },
+      { label: 'O', value: 10, description: 'Outstanding (90-100)' },
+      { label: 'A+', value: 9, description: 'Excellent (80-89)' },
+      { label: 'A', value: 8, description: 'Very Good (70-79)' },
+      { label: 'B+', value: 7, description: 'Good (60-69)' },
+      { label: 'B', value: 6, description: 'Above Average (55-59)' },
+      { label: 'C', value: 5, description: 'Average (50-54)' },
+      { label: 'P', value: 4, description: 'Pass (40-49)' },
+      { label: 'F', value: 0, description: 'Fail (<40)' },
     ],
     maxCredits: 26,
     minCredits: 1,
@@ -85,16 +84,16 @@ export const GRADING_SCHEMAS: GradingSchema[] = [
   },
   {
     id: 'mumbai',
-    name: 'Mumbai University',
+    name: 'Mumbai University (CBCS)',
     grades: [
-      { label: 'O — 10', value: 10 },
-      { label: 'A+ — 9', value: 9 },
-      { label: 'A — 8', value: 8 },
-      { label: 'B+ — 7', value: 7 },
-      { label: 'B — 6', value: 6 },
-      { label: 'C — 5', value: 5 },
-      { label: 'D — 4', value: 4 },
-      { label: 'F — 0', value: 0 },
+      { label: 'O', value: 10, description: 'Outstanding (80-100)' },
+      { label: 'A+', value: 9, description: 'Excellent (70-79.99)' },
+      { label: 'A', value: 8, description: 'Very Good (60-69.99)' },
+      { label: 'B+', value: 7, description: 'Good (55-59.99)' },
+      { label: 'B', value: 6, description: 'Above Average (50-54.99)' },
+      { label: 'C', value: 5, description: 'Average (45-49.99)' },
+      { label: 'D', value: 4, description: 'Pass (40-44.99)' },
+      { label: 'F', value: 0, description: 'Fail / ATKT (<40)' },
     ],
     maxCredits: 24,
     minCredits: 1,
@@ -105,17 +104,17 @@ export const GRADING_SCHEMAS: GradingSchema[] = [
     id: 'custom',
     name: 'Custom / Other University',
     grades: [
-      { label: '10', value: 10 },
-      { label: '9', value: 9 },
-      { label: '8', value: 8 },
-      { label: '7', value: 7 },
-      { label: '6', value: 6 },
-      { label: '5', value: 5 },
-      { label: '4', value: 4 },
-      { label: '3', value: 3 },
-      { label: '2', value: 2 },
-      { label: '1', value: 1 },
-      { label: '0', value: 0 },
+      { label: '10', value: 10, description: 'Grade Point 10' },
+      { label: '9', value: 9, description: 'Grade Point 9' },
+      { label: '8', value: 8, description: 'Grade Point 8' },
+      { label: '7', value: 7, description: 'Grade Point 7' },
+      { label: '6', value: 6, description: 'Grade Point 6' },
+      { label: '5', value: 5, description: 'Grade Point 5' },
+      { label: '4', value: 4, description: 'Grade Point 4' },
+      { label: '3', value: 3, description: 'Grade Point 3' },
+      { label: '2', value: 2, description: 'Grade Point 2' },
+      { label: '1', value: 1, description: 'Grade Point 1' },
+      { label: '0', value: 0, description: 'Grade Point 0' },
     ],
     maxCredits: 30,
     minCredits: 0.5,
@@ -131,7 +130,7 @@ export function getGradeOptions(schemaId: string): { value: string; label: strin
   const schema = GRADING_SCHEMAS.find(s => s.id === schemaId) || GRADING_SCHEMAS[0];
   const options = [{ value: '', label: 'Select Grade' }];
   schema.grades.forEach(g => {
-    options.push({ value: g.value.toString(), label: g.label });
+    options.push({ value: g.value.toString(), label: `${g.label} — ${g.value}` });
   });
   return options;
 }
@@ -192,6 +191,40 @@ export function safeDivide(numerator: number, denominator: number): number {
   if (isNaN(numerator)) return 0;
   return numerator / denominator;
 }
+
+/** University-specific percentage conversion formulas */
+export const CONVERSION_FORMULAS: Record<string, { name: string; formula: string; calculate: (cgpa: number) => number; inverse: (pct: number) => number }> = {
+  standard: {
+    name: 'Standard (Most Universities)',
+    formula: 'Percentage = (CGPA - 0.5) × 10',
+    calculate: (cgpa) => Math.max(0, (cgpa - 0.5) * 10),
+    inverse: (pct) => Math.min(10, (pct / 10) + 0.5),
+  },
+  jntu: {
+    name: 'JNTU / JNTUH / JNTUK',
+    formula: 'Percentage = (CGPA - 0.5) × 10',
+    calculate: (cgpa) => Math.max(0, (cgpa - 0.5) * 10),
+    inverse: (pct) => Math.min(10, (pct / 10) + 0.5),
+  },
+  anna: {
+    name: 'Anna University',
+    formula: 'Percentage = CGPA × 10',
+    calculate: (cgpa) => Math.max(0, cgpa * 10),
+    inverse: (pct) => Math.min(10, pct / 10),
+  },
+  vtu: {
+    name: 'VTU',
+    formula: 'Percentage = (CGPA - 0.75) × 10',
+    calculate: (cgpa) => Math.max(0, (cgpa - 0.75) * 10),
+    inverse: (pct) => Math.min(10, (pct / 10) + 0.75),
+  },
+  mumbai: {
+    name: 'Mumbai University',
+    formula: 'Percentage = (CGPA - 0.75) × 10',
+    calculate: (cgpa) => Math.max(0, (cgpa - 0.75) * 10),
+    inverse: (pct) => Math.min(10, (pct / 10) + 0.75),
+  },
+};
 
 export const DEGREE_CONFIG: Record<DegreeType, DegreeConfig> = {
   diploma: {
