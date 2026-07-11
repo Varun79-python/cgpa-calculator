@@ -145,7 +145,6 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  overflow: hidden;
   box-shadow: var(--shadow-lg);
   animation: appIn 0.4s var(--ease-out);
 }
@@ -281,6 +280,35 @@ body {
 }
 
 .tab i { font-size: 0.8rem; }
+
+/* ═══ TABS MARQUEE — Continuous Scroll ═══ */
+.tabs-marquee {
+  overflow: hidden;
+  margin: var(--sp-2) var(--sp-2) 0;
+  background: var(--surface-2);
+  border-radius: var(--radius-lg);
+  position: relative;
+  z-index: 1;
+  cursor: grab;
+}
+
+.tabs-marquee:active {
+  cursor: grabbing;
+}
+
+.tabs-marquee-track {
+  display: flex;
+  gap: var(--sp-1);
+  padding: var(--sp-1);
+  width: max-content;
+  will-change: scroll-position;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Hide scrollbar on marquee */
+.tabs-marquee::-webkit-scrollbar { display: none; }
+.tabs-marquee { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ═══ PANELS ═══ */
 .panel {
@@ -1193,6 +1221,10 @@ body {
   margin: var(--sp-2) var(--sp-3) 0;
   padding: 3px;
   border-radius: var(--radius-md);
+}
+
+.tabs-marquee {
+  margin: var(--sp-2) var(--sp-2) 0;
 }
 
 .tab {
