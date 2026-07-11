@@ -19,8 +19,8 @@ export default function Header() {
           {DEGREE_CONFIG[degree].shortLabel[0]}
         </div>
         <div className="brand-text">
-          <h1>{label} CGPA Calculator</h1>
-          <p>Calculate · Track · Achieve</p>
+          <h1>CGPA Calculator</h1>
+          <p>{label} · SGPA · Percentage</p>
         </div>
       </div>
       <div className="header-actions">
@@ -37,7 +37,7 @@ export default function Header() {
             <span style={{
               position: 'absolute', top: '-3px', right: '-3px',
               width: '14px', height: '14px', borderRadius: '50%',
-              background: 'var(--ink)', color: 'var(--surface)',
+              background: 'var(--accent)', color: 'white',
               fontSize: '0.5rem', fontWeight: 700,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               lineHeight: 1,
