@@ -289,11 +289,6 @@ body {
   border-radius: var(--radius-lg);
   position: relative;
   z-index: 1;
-  cursor: grab;
-}
-
-.tabs-marquee:active {
-  cursor: grabbing;
 }
 
 .tabs-marquee-track {
@@ -301,12 +296,21 @@ body {
   gap: var(--sp-1);
   padding: var(--sp-1);
   width: max-content;
-  will-change: scroll-position;
+  animation: marqueeScroll 20s linear infinite;
   -webkit-user-select: none;
   user-select: none;
 }
 
-/* Hide scrollbar on marquee */
+.tabs-marquee-track.paused {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+/* Hide scrollbar */
 .tabs-marquee::-webkit-scrollbar { display: none; }
 .tabs-marquee { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -1217,14 +1221,12 @@ body {
 }
 
 /* Tabs mobile */
-.tabs {
-  margin: var(--sp-2) var(--sp-3) 0;
-  padding: 3px;
-  border-radius: var(--radius-md);
-}
-
 .tabs-marquee {
   margin: var(--sp-2) var(--sp-2) 0;
+}
+
+.tabs-marquee-track {
+  animation-duration: 15s;
 }
 
 .tab {
