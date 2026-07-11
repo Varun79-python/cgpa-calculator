@@ -38,70 +38,8 @@ export default function Dashboard() {
         <Header />
         <Tabs />
 
-        {/* Hero Section */}
-        <div style={{
-          background: 'var(--ink)',
-          color: 'var(--white)',
-          padding: 'var(--sp-10) var(--sp-4)',
-          textAlign: 'center',
-        }}>
-          <div style={{
-            display: 'inline-block',
-            padding: '4px 12px',
-            background: 'rgba(255,255,255,0.1)',
-            border: '1px solid rgba(255,255,255,0.15)',
-            borderRadius: 'var(--radius-full)',
-            fontSize: '0.65rem',
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            color: 'rgba(255,255,255,0.7)',
-            marginBottom: 'var(--sp-5)',
-            textTransform: 'uppercase',
-          }}>
-            Free for all students
-          </div>
-
-          <h1 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.5rem, 5vw, 2.5rem)',
-            fontWeight: 800,
-            letterSpacing: '-0.03em',
-            lineHeight: 1.1,
-            marginBottom: 'var(--sp-3)',
-          }}>
-            Your Academic<br />Companion
-          </h1>
-
-          <p style={{
-            fontSize: 'var(--text-sm)',
-            color: 'rgba(255,255,255,0.5)',
-            maxWidth: '360px',
-            margin: '0 auto var(--sp-6)',
-            lineHeight: 1.6,
-          }}>
-            Calculate SGPA, CGPA, convert to percentage, predict goals — all offline.
-          </p>
-
-          <div style={{ display: 'flex', gap: 'var(--sp-3)', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button
-              className="hero-btn-primary"
-              onClick={() => router.push('/calculator/sgpa')}
-            >
-              <i className="fa-solid fa-calculator" />
-              <span>Calculate SGPA</span>
-            </button>
-            <button
-              className="hero-btn-secondary"
-              onClick={() => router.push('/calculator/cgpa')}
-            >
-              <i className="fa-solid fa-chart-line" />
-              <span>Calculate CGPA</span>
-            </button>
-          </div>
-        </div>
-
         {/* Banner Carousel */}
-        <div style={{ padding: 'var(--sp-4) 0' }}>
+        <div style={{ padding: 'var(--sp-6) var(--sp-4)' }}>
           <BannerCarousel folder="/banners" interval={4000} />
         </div>
 
