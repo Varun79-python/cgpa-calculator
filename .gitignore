@@ -2,3 +2,6 @@ node_modules/
 package-lock.json
 bun.lock
 .next/
+opencode.jsonc
+.opencode/openwork.json
+.opencode/.gitignore
