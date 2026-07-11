@@ -110,7 +110,7 @@ export default function MobileHeader() {
           </button>
           <ThemeToggle />
 
-          {/* Hamburger — rightmost (like varunsonline.com) */}
+          {/* Hamburger — rightmost */}
           <button
             ref={triggerRef}
             onClick={() => setDrawerOpen(o => !o)}
@@ -124,11 +124,12 @@ export default function MobileHeader() {
               background: 'var(--surface)',
               color: 'var(--ink-3)',
               borderColor: 'var(--border)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <span style={{ display: 'block', width: '14px', height: '2px', borderRadius: '1px', background: 'currentColor', marginBottom: '3px' }} />
-            <span style={{ display: 'block', width: '14px', height: '2px', borderRadius: '1px', background: 'currentColor', marginBottom: '3px' }} />
-            <span style={{ display: 'block', width: '14px', height: '2px', borderRadius: '1px', background: 'currentColor' }} />
+            <i className="fa-solid fa-layer-group" style={{ fontSize: '0.85rem' }} />
           </button>
         </div>
       </header>

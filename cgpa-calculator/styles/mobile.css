@@ -19,6 +19,9 @@ body {
   border-radius: 0;
   border: none;
   box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* ─── HEADER ─── */
@@ -341,7 +344,8 @@ td input, td select {
 
 /* ─── FOOTER ─── */
 .app-footer {
-  padding: var(--sp-3) var(--sp-4) var(--sp-2);
+  margin-top: auto;
+  padding: var(--sp-4) var(--sp-4) var(--sp-3);
   font-size: 0.6rem;
 }
 

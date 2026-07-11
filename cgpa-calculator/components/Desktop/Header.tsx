@@ -56,18 +56,6 @@ export default function DesktopHeader() {
           <span style={{ marginLeft: '4px', fontSize: 'var(--text-2xs)' }}>App</span>
         </button>
         <ThemeToggle />
-        <button
-          className="icon-btn"
-          onClick={() => {
-            if ((window as any).event?.metaKey || (window as any).event?.ctrlKey) return;
-            // Command palette toggle handled by CommandPalette component
-          }}
-          title="Command palette (Ctrl+P)"
-          aria-label="Open command palette"
-        >
-          <i className="fa-solid fa-magnifying-glass" />
-          <span style={{ marginLeft: '4px', fontSize: 'var(--text-2xs)', fontFamily: 'var(--font-mono)' }}>⌘P</span>
-        </button>
       </div>
     </header>
   );

@@ -32,7 +32,6 @@ export default function Tabs() {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Detect if tabs overflow their container → only marquee when needed
   useEffect(() => {
     const check = () => {
       if (containerRef.current && contentRef.current) {
