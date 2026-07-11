@@ -129,7 +129,7 @@ export default function MobileHeader() {
               justifyContent: 'center',
             }}
           >
-            <i className="fa-solid fa-layer-group" style={{ fontSize: '0.85rem' }} />
+            <i className="fa-solid fa-bars" style={{ fontSize: '0.85rem' }} />
           </button>
         </div>
       </header>

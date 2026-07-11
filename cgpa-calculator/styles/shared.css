@@ -253,6 +253,7 @@ body {
 .tabs-marquee-track {
   display: flex;
   width: max-content;
+  padding: var(--sp-1);    /* moved here from content — prevents 2× padding at the seam */
   -webkit-user-select: none;
   user-select: none;
 }
@@ -264,7 +265,6 @@ body {
 .tabs-marquee-content {
   display: flex;
   gap: var(--sp-1);
-  padding: var(--sp-1);
   flex-shrink: 0;
 }
 
