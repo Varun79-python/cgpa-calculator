@@ -14,7 +14,7 @@ export default function ConverterPage() {
   return (
     <>
       <Head>
-        <title>GPA ↔ Percentage Converter — {label} GPA Suite</title>
+        <title>GPA ↔ Percentage Converter — {label} CGPA Calculator</title>
         <meta name="description" content={`Convert ${label} CGPA/SGPA to percentage and vice versa with multiple university formulas.`} />
       </Head>
 

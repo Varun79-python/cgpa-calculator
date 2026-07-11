@@ -27,7 +27,7 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>{label} GPA Suite</title>
+        <title>{label} CGPA Calculator</title>
         <meta name="description" content={`Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline.`} />
       </Head>
 
@@ -112,7 +112,7 @@ export default function Dashboard() {
             {history.length === 0 && (
               <div className="empty-state">
                 <div className="empty-icon"><i className="fa-solid fa-graduation-cap" /></div>
-                <div className="empty-title">Welcome to GPA Suite</div>
+                <div className="empty-title">Welcome to CGPA Calculator</div>
                 <div className="empty-desc">Start by calculating your first SGPA or CGPA</div>
                 <button className="btn btn-primary" onClick={() => router.push('/calculator/sgpa')}>
                   <i className="fa-solid fa-calculator" /> Get Started

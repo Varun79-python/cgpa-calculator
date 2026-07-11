@@ -70,8 +70,8 @@ export const STORAGE_KEYS = {
 } as const;
 
 export const APP_INFO = {
-  name: 'GPA Suite',
-  version: '3.0.0',
+  name: 'CGPA Calculator',
+  version: '4.0.0',
   description: 'CGPA · SGPA · Percentage Calculator for Diploma, Degree, B.Tech & M.Tech',
   url: 'https://gpa-calc.app',
 } as const;

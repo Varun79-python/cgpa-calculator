@@ -31,7 +31,7 @@ export default function ExportPage() {
 
   return (
     <>
-      <Head><title>Export — {label} GPA Suite</title></Head>
+      <Head><title>Export — {label} CGPA Calculator</title></Head>
       <div className="app">
         <Header />
         <Tabs />

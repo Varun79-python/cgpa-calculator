@@ -10,6 +10,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link
@@ -29,14 +30,44 @@ export default class MyDocument extends Document {
 
           {/* Open Graph */}
           <meta property="og:type" content="website" />
-          <meta property="og:title" content="GPA Suite — CGPA · SGPA · Percentage Calculator" />
+          <meta property="og:title" content="CGPA Calculator — SGPA · Percentage · GPA" />
           <meta property="og:description" content="Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline." />
-          <meta property="og:site_name" content="GPA Suite" />
+          <meta property="og:site_name" content="CGPA Calculator" />
 
           {/* Twitter */}
           <meta name="twitter:card" content="summary" />
-          <meta name="twitter:title" content="GPA Suite — CGPA · SGPA · Percentage Calculator" />
+          <meta name="twitter:title" content="CGPA Calculator — SGPA · Percentage · GPA" />
           <meta name="twitter:description" content="Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline." />
+
+          {/* Structured Data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "name": "CGPA Calculator",
+                "url": "https://cgpa-calculator.vercel.app",
+                "description": "Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline. Free for Diploma, Degree, B.Tech & M.Tech students.",
+                "applicationCategory": "EducationalApplication",
+                "operatingSystem": "All",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "INR"
+                },
+                "featureList": [
+                  "SGPA Calculator",
+                  "CGPA Calculator",
+                  "GPA to Percentage Converter",
+                  "CGPA Goal Predictor",
+                  "PDF Report Export",
+                  "OCR Marksheet Scanner",
+                  "Offline Support"
+                ]
+              })
+            }}
+          />
         </Head>
         <body>
           <Main />

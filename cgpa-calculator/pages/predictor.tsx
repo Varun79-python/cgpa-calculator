@@ -13,7 +13,7 @@ export default function PredictorPage() {
 
   return (
     <>
-      <Head><title>Predictor — {label} GPA Suite</title></Head>
+      <Head><title>Predictor — {label} CGPA Calculator</title></Head>
       <div className="app">
         <Header />
         <Tabs />

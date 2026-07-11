@@ -14,7 +14,7 @@ export default function CGPAPage() {
   return (
     <>
       <Head>
-        <title>CGPA Calculator — {label} GPA Suite</title>
+        <title>CGPA Calculator — {label} CGPA Calculator</title>
         <meta name="description" content={`Calculate your ${label} Cumulative GPA (CGPA) across all semesters.`} />
       </Head>
 

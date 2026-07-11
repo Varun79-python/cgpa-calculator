@@ -14,7 +14,7 @@ export default function SGPAPage() {
   return (
     <>
       <Head>
-        <title>SGPA Calculator — {label} GPA Suite</title>
+        <title>SGPA Calculator — {label} CGPA Calculator</title>
         <meta name="description" content={`Calculate your ${label} Semester GPA (SGPA) with subject-wise grades and credits. Upload marksheet screenshots to auto-fill.`} />
       </Head>
 

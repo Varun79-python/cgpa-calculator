@@ -21,7 +21,7 @@ export default function HistoryPage() {
 
   return (
     <>
-      <Head><title>History — {DEGREE_CONFIG[useDegreeStore.getState().degree].label} GPA Suite</title></Head>
+      <Head><title>History — {DEGREE_CONFIG[useDegreeStore.getState().degree].label} CGPA Calculator</title></Head>
       <div className="app">
         <Header />
         <Tabs />

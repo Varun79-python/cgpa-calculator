@@ -1,6 +1,6 @@
 {
-  "name": "GPA Suite — CGPA · SGPA · Percentage Calculator",
-  "short_name": "GPA Suite",
+  "name": "CGPA Calculator — SGPA · Percentage · GPA",
+  "short_name": "CGPA Calc",
   "description": "Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline.",
   "start_url": "/",
   "display": "standalone",

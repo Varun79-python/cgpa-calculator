@@ -19,7 +19,7 @@ export default function Header() {
           {DEGREE_CONFIG[degree].shortLabel[0]}
         </div>
         <div className="brand-text">
-          <h1>{label} GPA Suite</h1>
+          <h1>{label} CGPA Calculator</h1>
           <p>Calculate · Track · Achieve</p>
         </div>
       </div>
