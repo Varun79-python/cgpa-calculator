@@ -102,11 +102,11 @@ export default function Dashboard() {
         {/* Features Grid */}
         <div style={{ padding: 'var(--sp-6) var(--sp-4)' }}>
           <div style={{
-            fontSize: '0.7rem',
+            fontSize: '0.75rem',
             fontWeight: 600,
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
-            color: 'var(--ink-4)',
+            color: 'var(--ink-3)',
             marginBottom: 'var(--sp-4)',
             textAlign: 'center',
           }}>
@@ -158,7 +158,7 @@ export default function Dashboard() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: 'var(--ink-3)',
+                  color: 'var(--ink)',
                   fontSize: '1rem',
                 }}>
                   <i className={f.icon} />
@@ -166,7 +166,7 @@ export default function Dashboard() {
                 <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)', marginBottom: '4px' }}>
                   {f.label}
                 </div>
-                <div style={{ fontSize: '0.65rem', color: 'var(--ink-4)', lineHeight: 1.4 }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--ink-3)', lineHeight: 1.4 }}>
                   {f.desc}
                 </div>
               </div>
@@ -180,11 +180,11 @@ export default function Dashboard() {
           borderTop: '1px solid var(--border-solid)',
         }}>
           <div style={{
-            fontSize: '0.7rem',
+            fontSize: '0.75rem',
             fontWeight: 600,
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
-            color: 'var(--ink-4)',
+            color: 'var(--ink-3)',
             marginBottom: 'var(--sp-4)',
             textAlign: 'center',
           }}>
@@ -199,12 +199,13 @@ export default function Dashboard() {
           }}>
             {UNIVERSITIES.map((u, i) => (
               <span key={i} style={{
-                padding: '4px 10px',
+                padding: '5px 12px',
                 background: 'var(--surface-2)',
+                border: '1px solid var(--border-solid)',
                 borderRadius: 'var(--radius-full)',
-                fontSize: '0.65rem',
+                fontSize: '0.7rem',
                 fontWeight: 500,
-                color: 'var(--ink-3)',
+                color: 'var(--ink)',
               }}>
                 {u}
               </span>
