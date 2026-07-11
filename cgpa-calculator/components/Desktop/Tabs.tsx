@@ -28,19 +28,10 @@ export default function DesktopTabs() {
   const currentPath = router.pathname;
 
   return (
-    <div className="tabs-marquee">
-      <div className="tabs-marquee-track">
-        <div className="tabs-marquee-content" style={{ gap: 'var(--sp-1)' }}>
-          {TABS.map((t) => (
-            <TabButton key={t.id} tab={t} currentPath={currentPath} router={router} />
-          ))}
-        </div>
-        <div className="tabs-marquee-content" style={{ gap: 'var(--sp-1)' }} aria-hidden="true">
-          {TABS.map((t) => (
-            <TabButton key={`dup-${t.id}`} tab={t} currentPath={currentPath} router={router} />
-          ))}
-        </div>
-      </div>
+    <div className="tabs tabs--static">
+      {TABS.map((t) => (
+        <TabButton key={t.id} tab={t} currentPath={currentPath} router={router} />
+      ))}
     </div>
   );
 }

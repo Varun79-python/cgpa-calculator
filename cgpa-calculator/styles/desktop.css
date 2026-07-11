@@ -30,10 +30,19 @@
   .brand-text p { display: block; }
   .brand-text h1 { font-size: var(--text-base); }
 
-  .tabs {
+  .tabs, .tabs--static {
     margin: var(--sp-2) var(--sp-3) 0;
     padding: 4px;
     border-radius: var(--radius-lg);
+  }
+
+  .tabs--static {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-1);
+    flex-wrap: wrap;
+    background: var(--surface-2);
   }
 
   .tab {
@@ -342,8 +351,8 @@
   .brand-text h1 { font-size: var(--text-lg); }
   .brand-text p { font-size: var(--text-xs); }
 
-  /* Full-width tabs */
-  .tabs-marquee {
+  /* Full-width tabs — desktop shows static (non-marquee) */
+  .tabs--static {
     margin: var(--sp-2) var(--sp-8) 0;
   }
 
@@ -406,11 +415,6 @@
   .stats-row {
     grid-template-columns: repeat(4, 1fr);
     gap: var(--sp-4);
-  }
-
-  /* Tabs marquee */
-  .tabs-marquee-track {
-    animation: marqueeScroll 28s linear infinite;
   }
 
   .tab {

@@ -1038,8 +1038,8 @@ td input.invalid, td select.invalid {
   transition: opacity var(--dur-mid) ease, transform var(--dur-mid) ease;
 }
 
-.page-enter { opacity: 1; transform: translateY(0); }
-.page-exit { opacity: 0.5; transform: translateY(2px); }
+.page-enter { opacity: 1; }
+.page-exit { opacity: 0.5; }
 
 /* ─── SCROLLBAR ─── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
