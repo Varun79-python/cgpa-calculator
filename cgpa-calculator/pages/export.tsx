@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import Header from '@/components/Shared/Header';
-import Footer from '@/components/Shared/Footer';
-import Tabs from '@/components/Shared/Tabs';
+import Header from '@/components/Responsive/Header';
+import Footer from '@/components/Responsive/Footer';
+import Tabs from '@/components/Responsive/Tabs';
 import ReportTemplate from '@/components/Export/ReportTemplate';
-import HistorySidebar from '@/components/History/HistorySidebar';
+import HistorySidebar from '@/components/Responsive/HistorySidebar';
 import { useHistoryStore, useDegreeStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 import { CalculationResult, Subject } from '@/types';

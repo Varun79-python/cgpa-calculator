@@ -1,0 +1,381 @@
+/* ═══════════════════════════════════════════
+   MOBILE — Compact, touch-optimized, full-width
+   Targets phones (0–599px)
+   ═══════════════════════════════════════════ */
+
+/* ─── BODY & APP SHELL ─── */
+body {
+  padding: 0;
+  display: block;
+  touch-action: pan-y;
+}
+
+#__next {
+  width: 100%;
+  max-width: 100%;
+}
+
+.app {
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─── */
+.app-header {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  font-size: var(--text-xs);
+}
+
+.brand-text h1 {
+  font-size: var(--text-sm);
+}
+
+.brand-text p {
+  display: none;
+}
+
+.header-actions {
+  gap: var(--sp-1);
+}
+
+.icon-btn {
+  height: 34px;
+  min-width: 34px;
+  padding: 0 var(--sp-2);
+  font-size: var(--text-2xs);
+}
+
+/* ─── TABS ─── */
+.tabs-marquee {
+  margin: var(--sp-2) var(--sp-2) 0;
+  border-radius: var(--radius-lg);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.tabs-marquee-track {
+  animation: marqueeScroll 18s linear infinite;
+}
+
+.tab {
+  height: 34px;
+  padding: 0 var(--sp-3);
+  font-size: var(--text-2xs);
+  border-radius: var(--radius-sm);
+  gap: var(--sp-1);
+}
+
+.tab .tab-label {
+  display: inline;
+  font-size: 0.65rem;
+}
+
+.tab i { font-size: 0.75rem; }
+
+/* ─── DASHBOARD SECTIONS ─── */
+.dash-section {
+  padding: var(--sp-5) var(--sp-4);
+}
+
+/* ─── FEATURES GRID ─── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-4);
+}
+
+/* ─── BANNER ─── */
+.banner-carousel-track {
+  aspect-ratio: 2 / 1;
+}
+
+/* ─── PANELS ─── */
+.panel {
+  padding: var(--sp-4);
+}
+
+/* ─── SECTION HEADERS ─── */
+.sec-header {
+  margin-bottom: var(--sp-3);
+}
+
+.sec-label {
+  font-size: var(--text-2xs);
+}
+
+.sec-icon {
+  width: 22px;
+  height: 22px;
+  font-size: 0.6rem;
+}
+
+/* ─── BUTTONS ─── */
+.btn {
+  height: 36px;
+  padding: 0 var(--sp-3);
+  font-size: var(--text-2xs);
+  border-radius: var(--radius-sm);
+}
+
+.btn-lg {
+  height: 40px;
+  padding: 0 var(--sp-4);
+  font-size: var(--text-xs);
+}
+
+.btn-sm {
+  height: 28px;
+  padding: 0 var(--sp-2);
+  font-size: 0.625rem;
+}
+
+/* ─── FORM INPUTS ─── */
+.input {
+  height: 40px;
+  font-size: var(--text-sm);
+}
+
+.input-lg {
+  height: 44px;
+  font-size: var(--text-base);
+  padding: 0 var(--sp-4);
+}
+
+/* ─── SEMESTER GRID ─── */
+.sem-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-5);
+}
+
+.sem-card {
+  padding: var(--sp-3) var(--sp-2) var(--sp-2);
+}
+
+.sem-card label {
+  font-size: 0.55rem;
+}
+
+.sem-card input {
+  font-size: var(--text-xl);
+  min-height: 36px;
+}
+
+/* ─── TABLE ─── */
+.table-wrap {
+  margin: 0 calc(-1 * var(--sp-4));
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+}
+
+table {
+  font-size: var(--text-xs);
+}
+
+th {
+  padding: var(--sp-2) var(--sp-2);
+  font-size: 0.55rem;
+}
+
+td {
+  padding: var(--sp-1) var(--sp-1);
+}
+
+td input, td select {
+  height: 32px;
+  font-size: var(--text-2xs);
+  padding: 0 var(--sp-1);
+  min-width: 40px;
+}
+
+.rm-btn {
+  width: 28px;
+  height: 28px;
+}
+
+/* ─── RESULT CARD ─── */
+.result-card {
+  padding: var(--sp-6) var(--sp-4);
+}
+
+.result-number {
+  font-size: var(--text-3xl);
+}
+
+.result-badge {
+  font-size: 0.6rem;
+  padding: 3px var(--sp-3);
+}
+
+/* ─── CONVERTER ─── */
+.conv-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+.conv-arrow {
+  transform: rotate(90deg);
+  padding-top: 0;
+  padding-bottom: var(--sp-1);
+  text-align: center;
+}
+
+.conv-group input {
+  height: 44px;
+  font-size: var(--text-lg);
+}
+
+/* ─── STATS ─── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-5);
+}
+
+.stat-item {
+  padding: var(--sp-3) var(--sp-2);
+}
+
+.stat-value {
+  font-size: var(--text-base);
+}
+
+.stat-label {
+  font-size: 0.55rem;
+}
+
+/* ─── ACTIONS ─── */
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-2);
+}
+
+.action-card {
+  padding: var(--sp-3) var(--sp-2);
+}
+
+.action-icon {
+  width: 32px;
+  height: 32px;
+  font-size: var(--text-xs);
+}
+
+.action-label {
+  font-size: var(--text-2xs);
+}
+
+.action-desc {
+  font-size: 0.55rem;
+}
+
+/* ─── HISTORY ─── */
+.history-item {
+  padding: var(--sp-2) var(--sp-3);
+  gap: var(--sp-2);
+}
+
+.history-badge {
+  font-size: 0.55rem;
+  padding: 2px 6px;
+  min-width: 44px;
+}
+
+.history-score {
+  font-size: var(--text-xs);
+}
+
+.history-meta {
+  font-size: 0.55rem;
+  display: none;
+}
+
+.history-date {
+  font-size: 0.55rem;
+}
+
+/* ─── UPLOAD ZONE ─── */
+.upload-zone {
+  padding: var(--sp-5) var(--sp-3);
+}
+
+.upload-icon {
+  width: 40px;
+  height: 40px;
+  font-size: var(--text-sm);
+}
+
+.upload-text {
+  font-size: var(--text-xs);
+}
+
+/* ─── HERO ─── */
+.hero {
+  padding: var(--sp-8) var(--sp-4);
+}
+
+.hero h2 {
+  font-size: var(--text-xl);
+}
+
+.hero p {
+  font-size: var(--text-xs);
+  margin-bottom: var(--sp-4);
+}
+
+.hero-tag {
+  font-size: 0.6rem;
+  padding: 3px var(--sp-2);
+}
+
+/* ─── FOOTER ─── */
+.app-footer {
+  padding: var(--sp-3) var(--sp-4);
+  font-size: 0.6rem;
+}
+
+/* ─── EMPTY STATE ─── */
+.empty-state {
+  padding: var(--sp-8) var(--sp-4);
+}
+
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  font-size: var(--text-sm);
+}
+
+.empty-title {
+  font-size: var(--text-xs);
+}
+
+.empty-desc {
+  font-size: var(--text-2xs);
+}
+
+/* ─── TOAST ─── */
+.toast {
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--text-2xs);
+}
+
+.toast-container {
+  bottom: var(--sp-4);
+}
+
+/* ─── SIDEBAR ─── */
+aside {
+  max-width: 100%;
+}

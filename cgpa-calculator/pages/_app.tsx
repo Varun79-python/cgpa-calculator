@@ -6,7 +6,9 @@ import CommandPalette from '@/components/CommandPalette/CommandPalette';
 import NetworkStatus from '@/components/Shared/NetworkStatus';
 import ErrorBoundary from '@/components/Shared/ErrorBoundary';
 import { useThemeStore, applyThemeClass } from '@/store/useStore';
-import '@/styles/globals.css';
+import '@/styles/shared.css';
+import '@/styles/mobile.css';
+import '@/styles/desktop.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

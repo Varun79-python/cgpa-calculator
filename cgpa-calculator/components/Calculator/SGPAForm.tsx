@@ -47,20 +47,6 @@ export default function SGPAForm() {
     try { localStorage.setItem('cgpa-schema', schemaId); } catch {}
   }, [schemaId]);
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('cgpa-sg-inputs');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) setRows(parsed);
-      }
-    } catch {}
-  }, []);
-
-  useEffect(() => {
-    try { localStorage.setItem('cgpa-sg-inputs', JSON.stringify(rows)); } catch {}
-  }, [rows]);
-
   const addRow = useCallback(() => {
     const maxId = rows.reduce((m, r) => Math.max(m, r.id || 0), 0);
     setRows(prev => [...prev, { id: maxId + 1, name: '', credits: '', grade: '' }]);
@@ -246,7 +232,7 @@ export default function SGPAForm() {
             <i className="fa-solid fa-plus" /> Add
           </button>
           <button className={`btn ${showUpload ? 'btn-primary' : ''}`} onClick={() => setShowUpload(v => !v)}>
-            <i className="fa-solid fa-camera" /> Scan
+            <i className="fa-solid fa-cloud-arrow-up" /> Upload Result
           </button>
           <button className={`btn ${showBulkImport ? 'btn-primary' : ''}`} onClick={() => setShowBulkImport(v => !v)}>
             <i className="fa-solid fa-paste" /> Paste

@@ -1,0 +1,284 @@
+{
+  "projectRoot": "C:\\cgpa caluculator\\cgpa-calculator",
+  "scanTimestamp": "2025-07-11T00:00:00Z",
+  "projectSummary": {
+    "name": "CGPA Calculator",
+    "npmName": "gpa-suite",
+    "version": "4.0.0",
+    "description": "CGPA · SGPA · Percentage Calculator — Calculate, track, and achieve your academic goals",
+    "license": "MIT",
+    "author": "Varun79-python",
+    "repository": "https://cgpa-calculator.vercel.app",
+    "category": "education-utility"
+  },
+  "languages": {
+    "typescript": {
+      "files": 30,
+      "extensions": [".ts", ".tsx"],
+      "primaryLanguage": true,
+      "roles": ["components", "pages", "config", "hooks", "store", "utils", "types"],
+      "notes": "All application logic, components, types, and utility functions are written in TypeScript with strict-ish settings (target es5, module esnext, bundler resolution)"
+    },
+    "css": {
+      "files": 1,
+      "extensions": [".css"],
+      "primaryLanguage": false,
+      "roles": ["global-styles", "design-system"],
+      "notes": "Single globals.css file (~2066 lines) containing the entire design system — CSS custom properties, light/dark themes, responsive breakpoints, component styles. Uses Tailwind directives at top."
+    },
+    "javascript": {
+      "files": 3,
+      "extensions": [".js"],
+      "primaryLanguage": false,
+      "roles": ["config", "service-worker"],
+      "notes": "postcss.config.js, tailwind.config.js, next.config.js — build/config files only. Also auto-generated public/sw.js and workbox-e1521e97.js (PWA service worker)"
+    },
+    "json": {
+      "files": 6,
+      "extensions": [".json"],
+      "primaryLanguage": false,
+      "roles": ["package-manifest", "config", "seo"],
+      "notes": "package.json, tsconfig.json, jsconfig.json, manifest.json, next-env.d.ts (auto-generated declaration), plus lock files"
+    },
+    "yaml": {
+      "files": 2,
+      "extensions": [".yaml"],
+      "primaryLanguage": false,
+      "roles": ["package-manager-config"],
+      "notes": "pnpm-lock.yaml and pnpm-workspace.yaml (controls allowed builds for tesseract.js)"
+    },
+    "xml": {
+      "files": 1,
+      "extensions": [".xml"],
+      "primaryLanguage": false,
+      "roles": ["seo"],
+      "notes": "Static sitemap.xml listing all routes"
+    },
+    "svg": {
+      "files": 1,
+      "extensions": [".svg"],
+      "primaryLanguage": false,
+      "roles": ["icon"],
+      "notes": "App icon at public/icons/icon.svg"
+    },
+    "text": {
+      "files": 1,
+      "extensions": [".txt"],
+      "primaryLanguage": false,
+      "roles": ["seo"],
+      "notes": "robots.txt — allows all crawlers"
+    },
+    "markdown": {
+      "files": 0,
+      "extensions": [],
+      "primaryLanguage": false,
+      "roles": [],
+      "notes": "No README or documentation files found in project root"
+    }
+  },
+  "frameworks": {
+    "next": {
+      "name": "Next.js",
+      "version": "^14.2.0",
+      "role": "framework",
+      "routing": "pages-router",
+      "notes": "Pages Router (not App Router). Uses _app.tsx, _document.tsx, and page-based routing. PWA support via next-pwa plugin."
+    },
+    "react": {
+      "name": "React",
+      "version": "^18.3.0",
+      "role": "ui-library",
+      "notes": "Standard React with useState/useEffect hooks. No server components used."
+    },
+    "tailwindcss": {
+      "name": "Tailwind CSS",
+      "version": "^3.4.1",
+      "role": "utility-framework",
+      "notes": "Used via PostCSS plugin. Custom design system built on top with CSS custom properties. Tailwind directives in globals.css but most styling uses vanilla CSS classes."
+    },
+    "zustand": {
+      "name": "Zustand",
+      "version": "^4.4.7",
+      "role": "state-management",
+      "notes": "Lightweight state management. Stores: useThemeStore, useHistoryStore, useUIStore, useCalculationStore, useDegreeStore — all in store/useStore.ts"
+    }
+  },
+  "dependencies": {
+    "production": {
+      "chart.js": "^4.5.1",
+      "react-chartjs-2": "^5.3.1",
+      "clsx": "^2.1.0",
+      "jspdf": "^4.2.1",
+      "next": "^14.2.0",
+      "next-pwa": "^5.6.0",
+      "pdfjs-dist": "^6.1.200",
+      "react": "^18.3.0",
+      "react-dom": "^18.3.0",
+      "tesseract.js": "^7.0.0",
+      "zustand": "^4.4.7"
+    },
+    "dev": {
+      "@types/node": "^20.19.43",
+      "@types/react": "^18.3.31",
+      "@types/react-dom": "^18.2.18",
+      "autoprefixer": "^10.4.17",
+      "postcss": "^8.4.33",
+      "tailwindcss": "^3.4.1",
+      "typescript": "^5.9.3"
+    }
+  },
+  "features": [
+    "SGPA Calculator — manual entry with subject-wise grades and credits",
+    "OCR Marksheets — Tesseract.js based image-to-text for auto-filling subjects",
+    "CGPA Calculator — weighted by credits across semesters",
+    "CGPA-to-Percentage Converter — university-specific formulas (UGC, JNTU, Anna, VTU, Mumbai, Custom)",
+    "CGPA Goal Predictor — calculate required SGPA to reach target CGPA",
+    "Calculation History — localStorage persistence, up to 50 entries",
+    "PDF Export — professional academic reports via jsPDF",
+    "4 Degree Types — Diploma (6 sem), Degree (6 sem), B.Tech (8 sem), M.Tech (4 sem)",
+    "11 Grading Schemas — UGC CBCS, JNTU, Anna University, VTU, Mumbai, KTU, GTU, MAKAUT, IIT/NIT, Mumbai Legacy, Custom",
+    "3 Themes — light, dark, system (with FOUC prevention in _document.tsx)",
+    "PWA — Service Worker via next-pwa, offline support with cache strategies",
+    "Responsive Design — mobile-first (480px) → tablet (768px) → desktop (1024px)",
+    "Command Palette — keyboard-accessible quick actions",
+    "Banner Carousel — rotating promotional images",
+    "Dark Mode Flash Prevention — inline script in _document.tsx reads localStorage before paint",
+    "Security Headers — HSTS, X-Content-Type-Options, X-Frame-Options, XSS-Protection, CSP-adjacent",
+    "SEO — Structured Data (Schema.org), Open Graph, Twitter Cards, sitemap.xml, robots.txt"
+  ],
+  "fileTree": {
+    "pages/": {
+      "_app.tsx": "App wrapper — theme init, route transitions, toast/command palette/network status/ErrorBoundary",
+      "_document.tsx": "Custom document — dark mode script, font loading, SEO meta, structured data",
+      "index.tsx": "Dashboard — hero, features grid, university support badges, banner carousel",
+      "404.tsx": "Custom 404 page",
+      "calculator/sgpa.tsx": "SGPA calculator page",
+      "calculator/cgpa.tsx": "CGPA calculator page",
+      "calculator/converter.tsx": "CGPA↔Percentage converter page",
+      "predictor.tsx": "CGPA goal predictor page",
+      "history.tsx": "Calculation history page",
+      "export.tsx": "PDF export page"
+    },
+    "components/": {
+      "Shared/Header.tsx": "App header with brand, theme toggle, degree switcher",
+      "Shared/Footer.tsx": "App footer",
+      "Shared/Tabs.tsx": "Navigation tabs with marquee animation on mobile",
+      "Shared/Hero.tsx": "Hero banner section",
+      "Shared/Banner.tsx": "Single banner display",
+      "Shared/BannerCarousel.tsx": "Auto-rotating banner carousel with dots and arrows",
+      "Shared/ThemeToggle.tsx": "Light/Dark/System theme toggle button",
+      "Shared/DegreeSwitcher.tsx": "Degree type selector (Diploma/Degree/B.Tech/M.Tech)",
+      "Shared/ErrorBoundary.tsx": "React error boundary",
+      "Shared/NetworkStatus.tsx": "Online/offline detection indicator",
+      "Shared/Toast.tsx": "Toast notification system",
+      "Shared/AnimatedNumber.tsx": "Animated number counter component",
+      "Calculator/SGPAForm.tsx": "SGPA calculator form with subject rows",
+      "Calculator/CGPAForm.tsx": "CGPA calculator form with semester grid",
+      "Calculator/Converter.tsx": "CGPA↔Percentage converter with university formula selection",
+      "Calculator/GoalPredictor.tsx": "Target CGPA predictor",
+      "History/HistorySidebar.tsx": "History sidebar panel with CRUD operations",
+      "Export/PDFGenerator.tsx": "PDF generation component",
+      "Export/ReportTemplate.tsx": "PDF report template layout",
+      "Visualizations/GradeBar.tsx": "Grade distribution bar chart",
+      "Visualizations/RadarChart.tsx": "Radar/spider chart for grade visualization",
+      "OCR/ImageUploader.tsx": "Drag-and-drop image upload for OCR",
+      "CommandPalette/CommandPalette.tsx": "Keyboard-accessible command palette"
+    },
+    "config/": {
+      "constants.ts": "Degree configs, grading schemas (11 universities), validation rules, storage keys, app info",
+      "universities.ts": "University-specific CGPA↔Percentage conversion formulas"
+    },
+    "store/": {
+      "useStore.ts": "Zustand stores — theme, history, UI, calculation, degree state"
+    },
+    "hooks/": {
+      "useOCR.ts": "OCR processing hook wrapping tesseract.js"
+    },
+    "utils/": {
+      "calculations/sgpaCalculator.ts": "SGPA calculation logic",
+      "calculations/cgpaCalculator.ts": "CGPA calculation logic",
+      "calculations/converter.ts": "CGPA↔Percentage conversion",
+      "calculations/predictor.ts": "CGPA goal prediction logic",
+      "pdf/pdfGenerator.ts": "PDF document generation with jsPDF",
+      "ocr/tesseract.ts": "Tesseract.js OCR wrapper",
+      "storage/localStorage.ts": "Typed localStorage helpers"
+    },
+    "types/": {
+      "index.ts": "TypeScript interfaces — Subject, Semester, CalculationResult, HistoryEntry, DegreeType, GradeMapping, UniversityFormula"
+    },
+    "styles/": {
+      "globals.css": "Complete design system — CSS custom properties, light/dark themes, all component styles, responsive breakpoints"
+    },
+    "public/": {
+      "manifest.json": "PWA manifest — app name, icons, display standalone",
+      "robots.txt": "SEO — allow all crawlers",
+      "sitemap.xml": "SEO — all routes listed",
+      "sw.js": "Auto-generated service worker (next-pwa)",
+      "workbox-e1521e97.js": "Auto-generated Workbox runtime",
+      "icons/icon.svg": "App SVG icon",
+      "banners/banner-1.jpg": "Banner image 1",
+      "banners/banner-3.jpg": "Banner image 3",
+      "banners/banner-5.jpg": "Banner image 5"
+    }
+  },
+  "configFiles": {
+    "package.json": {
+      "purpose": "NPM package manifest — dependencies, scripts (dev/build/start)",
+      "packageManager": "pnpm (indicated by pnpm-lock.yaml and pnpm-workspace.yaml)"
+    },
+    "tsconfig.json": {
+      "purpose": "TypeScript configuration — target es5, bundler module resolution, path alias @/*"
+    },
+    "jsconfig.json": {
+      "purpose": "JS/IDE path alias configuration — @/* → ./*"
+    },
+    "tailwind.config.js": {
+      "purpose": "Tailwind CSS configuration — custom fonts (Inter, Outfit, JetBrains Mono), custom colors (ink scale), animations, shadows"
+    },
+    "postcss.config.js": {
+      "purpose": "PostCSS config — tailwindcss + autoprefixer plugins"
+    },
+    "next.config.js": {
+      "purpose": "Next.js configuration — PWA setup (next-pwa), security headers, SWC minify, console removal in production"
+    },
+    "pnpm-workspace.yaml": {
+      "purpose": "pnpm workspace config — blocks builds for core-js and tesseract.js"
+    },
+    ".gitignore": {
+      "purpose": "Git ignore rules — node_modules, .next, build, env files, TypeScript build info"
+    },
+    "LICENSE": {
+      "purpose": "MIT License — Copyright 2026 Varun79-python"
+    }
+  },
+  "architecture": {
+    "routing": "Next.js Pages Router — file-based routing under pages/",
+    "stateManagement": "Zustand with 5 stores — theme, history, UI, calculation, degree. All persisted to localStorage.",
+    "styling": "Hybrid — CSS custom properties design system (globals.css) + Tailwind utilities. Mobile-first responsive with 3 breakpoints (mobile default, 768px tablet, 1024px desktop).",
+    "dataPersistence": "localStorage only — no backend, no database. History capped at 50 entries.",
+    "buildTooling": "Next.js built-in (SWC), pnpm package manager, TypeScript 5.9",
+    "deployment": "Vercel (inferred from sitemap URLs and .vercel in .gitignore)",
+    "pwa": "Service Worker via next-pwa with NetworkFirst/StaleWhileRevalidate/CacheFirst strategies"
+  },
+  "qualitySignals": {
+    "hasTests": false,
+    "hasCI": false,
+    "hasTypeScript": true,
+    "hasLinting": false,
+    "hasPrettier": false,
+    "hasDocker": false,
+    "hasDocumentation": false,
+    "hasReadme": false,
+    "hasChangelog": false,
+    "strictMode": false
+  },
+  "entryPoints": {
+    "mainPage": "pages/index.tsx",
+    "appWrapper": "pages/_app.tsx",
+    "documentRoot": "pages/_document.tsx",
+    "globalStyles": "styles/globals.css",
+    "stateStore": "store/useStore.ts",
+    "configConstants": "config/constants.ts",
+    "typeDefinitions": "types/index.ts"
+  }
+}

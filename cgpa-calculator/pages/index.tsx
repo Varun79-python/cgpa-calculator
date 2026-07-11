@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import Header from '@/components/Shared/Header';
-import Footer from '@/components/Shared/Footer';
-import Tabs from '@/components/Shared/Tabs';
+import Header from '@/components/Responsive/Header';
+import Footer from '@/components/Responsive/Footer';
+import Tabs from '@/components/Responsive/Tabs';
 import BannerCarousel from '@/components/Shared/BannerCarousel';
-import HistorySidebar from '@/components/History/HistorySidebar';
+import HistorySidebar from '@/components/Responsive/HistorySidebar';
 import { useDegreeStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 
@@ -14,7 +14,7 @@ const FEATURES = [
   { icon: 'fa-solid fa-arrow-right-arrow-left', label: 'GPA ↔ Percentage', desc: 'Convert between GPA and percentage instantly' },
   { icon: 'fa-solid fa-bullseye', label: 'Goal Predictor', desc: 'Find out what SGPA you need to reach your target' },
   { icon: 'fa-solid fa-file-pdf', label: 'PDF Export', desc: 'Download professional academic reports' },
-  { icon: 'fa-solid fa-camera', label: 'OCR Scan', desc: 'Scan marksheet to auto-fill subjects' },
+  { icon: 'fa-solid fa-cloud-arrow-up', label: 'Upload Result', desc: 'Upload marksheet to auto-fill subjects' },
 ];
 
 const UNIVERSITIES = [
@@ -57,11 +57,7 @@ export default function Dashboard() {
             Everything you need
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: 'var(--sp-4)',
-          }}>
+          <div className="features-grid">
             {FEATURES.map((f, i) => (
               <div
                 key={i}
@@ -71,7 +67,7 @@ export default function Dashboard() {
                   else if (f.label.includes('GPA ↔')) router.push('/calculator/converter');
                   else if (f.label.includes('Goal')) router.push('/predictor');
                   else if (f.label.includes('PDF')) router.push('/export');
-                  else if (f.label.includes('OCR')) router.push('/calculator/sgpa');
+                  else if (f.label.includes('Upload')) router.push('/calculator/sgpa');
                 }}
                 style={{
                   padding: 'var(--sp-5) var(--sp-4)',

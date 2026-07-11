@@ -18,7 +18,7 @@ export default function Header() {
           {DEGREE_CONFIG[degree].shortLabel[0]}
         </div>
         <div className="brand-text">
-          <h1>CGPA Calculator</h1>
+          <h1><span style={{ color: 'var(--ink)' }}>CGPA</span> <span style={{ color: 'var(--accent)' }}>Calculator</span></h1>
           <p>{label} · SGPA · Percentage</p>
         </div>
       </div>
@@ -44,6 +44,14 @@ export default function Header() {
               {history.length > 9 ? '9+' : history.length}
             </span>
           )}
+        </button>
+        <button
+          className="icon-btn"
+          onClick={() => router.push('/download')}
+          title="Download app"
+          aria-label="Download the app"
+        >
+          <i className="fa-solid fa-download" />
         </button>
         <ThemeToggle />
       </div>

@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import Header from '@/components/Shared/Header';
-import Footer from '@/components/Shared/Footer';
-import Tabs from '@/components/Shared/Tabs';
+import Header from '@/components/Responsive/Header';
+import Footer from '@/components/Responsive/Footer';
+import Tabs from '@/components/Responsive/Tabs';
 import CGPAForm from '@/components/Calculator/CGPAForm';
-import HistorySidebar from '@/components/History/HistorySidebar';
+import HistorySidebar from '@/components/Responsive/HistorySidebar';
 import { useDegreeStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 

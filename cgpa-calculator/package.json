@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "icons": "node scripts/generate-icons.mjs",
+    "build-twa": "node scripts/build-twa.mjs"
   },
   "dependencies": {
     "chart.js": "^4.5.1",
@@ -22,11 +24,13 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@bubblewrap/core": "^1.24.1",
     "@types/node": "^20.19.43",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.2.18",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.33",
+    "sharp": "^0.35.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.9.3"
   }

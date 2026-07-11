@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import { useState, useCallback } from 'react';
-import Header from '@/components/Shared/Header';
-import Footer from '@/components/Shared/Footer';
-import Tabs from '@/components/Shared/Tabs';
-import HistorySidebar from '@/components/History/HistorySidebar';
+import Header from '@/components/Responsive/Header';
+import Footer from '@/components/Responsive/Footer';
+import Tabs from '@/components/Responsive/Tabs';
+import HistorySidebar from '@/components/Responsive/HistorySidebar';
 import { useHistoryStore, useDegreeStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 import { showToast } from '@/components/Shared/Toast';

@@ -48,9 +48,6 @@ export default function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-1)' }}>
               <a onClick={() => router.push('/history')} style={{ fontSize: 'var(--text-2xs)', color: 'var(--ink-4)', cursor: 'pointer' }}>History</a>
               <a onClick={() => router.push('/export')} style={{ fontSize: 'var(--text-2xs)', color: 'var(--ink-4)', cursor: 'pointer' }}>Export PDF</a>
-              <a href="https://github.com/Varun79-python/cgpa-calculator" target="_blank" rel="noopener noreferrer" style={{ fontSize: 'var(--text-2xs)', color: 'var(--ink-4)', textDecoration: 'none' }}>
-                <i className="fa-brands fa-github" /> GitHub
-              </a>
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const TABS = [
   { id: '/calculator/sgpa', label: 'SGPA', icon: 'fa-solid fa-layer-group' },
@@ -28,24 +28,42 @@ export default function Tabs() {
   const router = useRouter();
   const currentPath = router.pathname;
   const [isPaused, setIsPaused] = useState(false);
+  const [overflows, setOverflows] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Detect if tabs overflow their container → only marquee when needed
+  useEffect(() => {
+    const check = () => {
+      if (containerRef.current && contentRef.current) {
+        setOverflows(contentRef.current.scrollWidth > containerRef.current.clientWidth);
+      }
+    };
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   return (
     <div
-      className="tabs-marquee"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      ref={containerRef}
+      className={`tabs-marquee${overflows ? '' : ' tabs-marquee--static'}`}
+      onMouseEnter={() => overflows && setIsPaused(true)}
+      onMouseLeave={() => overflows && setIsPaused(false)}
     >
       <div className={`tabs-marquee-track ${isPaused ? 'paused' : ''}`}>
-        <div className="tabs-marquee-content">
+        <div className="tabs-marquee-content" ref={contentRef}>
           {TABS.map((t) => (
             <TabButton key={t.id} tab={t} currentPath={currentPath} router={router} />
           ))}
         </div>
-        <div className="tabs-marquee-content" aria-hidden="true">
-          {TABS.map((t) => (
-            <TabButton key={`dup-${t.id}`} tab={t} currentPath={currentPath} router={router} />
-          ))}
-        </div>
+        {overflows && (
+          <div className="tabs-marquee-content" aria-hidden="true">
+            {TABS.map((t) => (
+              <TabButton key={`dup-${t.id}`} tab={t} currentPath={currentPath} router={router} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
