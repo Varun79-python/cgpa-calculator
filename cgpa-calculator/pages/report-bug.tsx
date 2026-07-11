@@ -106,66 +106,49 @@ export default function ReportBugPage() {
       const catMeta = CATEGORIES.find(c => c.value === form.category);
       const priMeta = PRIORITIES.find(p => p.value === form.priority);
 
-      const body = [
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-        `  CGPA Calculator — ${catMeta?.label || form.category}`,
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-        ``,
-        `📌 Category: ${catMeta?.label || form.category}`,
-        `🔴 Priority: ${priMeta?.label || form.priority}`,
-        `🎓 Degree: ${label}`,
-        ``,
-        `👤 Reporter: ${form.name || 'Anonymous'}`,
-        `📧 Email: ${form.email || 'Not provided'}`,
-        ``,
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-        `  ISSUE DETAILS`,
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-        ``,
-        `📋 Subject: ${form.subject}`,
-        ``,
-        `📝 Description:`,
-        form.description,
-        ``,
-      ];
+      const payload = {
+        name: form.name,
+        email: form.email,
+        category: form.category,
+        priority: form.priority,
+        subject: form.subject,
+        description: form.description,
+        steps: form.steps,
+        expected: form.expected,
+        actual: form.actual,
+        screenshotName: form.screenshotName,
+        browser: typeof navigator !== 'undefined' ? navigator.userAgent.split(' ').slice(-1)[0] : 'Unknown',
+        screen: typeof window !== 'undefined' ? `${window.innerWidth}x${window.innerHeight}` : 'Unknown',
+        time: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+      };
 
-      if (form.category === 'bug') {
-        if (form.steps) {
-          body.push(`🔄 Steps to Reproduce:`, form.steps, ``);
-        }
-        if (form.expected) {
-          body.push(`✅ Expected Behavior:`, form.expected, ``);
-        }
-        if (form.actual) {
-          body.push(`❌ Actual Behavior:`, form.actual, ``);
-        }
+      const response = await fetch('/api/send-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+
+      if (result.success && result.sent) {
+        showToast('Report sent successfully!', 'success');
+      } else if (result.success && result.fallback) {
+        showToast('Report saved locally. SMTP not configured.', 'info');
+      } else {
+        throw new Error(result.error || 'Failed to send report');
       }
 
-      if (form.screenshotName) {
-        body.push(`📸 Screenshot: ${form.screenshotName}`, `(See attached image)`, ``);
-      }
-
-      body.push(
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-        `  SYSTEM INFO`,
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-        ``,
-        `🖥️ Browser: ${typeof navigator !== 'undefined' ? navigator.userAgent.split(' ').slice(-1)[0] : 'Unknown'}`,
-        `📱 Screen: ${typeof window !== 'undefined' ? `${window.innerWidth}x${window.innerHeight}` : 'Unknown'}`,
-        `🕐 Time: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}`,
-        ``,
-        `Sent from CGPA Calculator v4.0.0`,
-      );
-
-      const subject = `[${catMeta?.label || 'Report'}] ${form.subject}`;
-      const mailtoBody = body.join('\n');
-      const mailtoUrl = `mailto:supplecostadmin@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailtoBody)}`;
-
-      // Try to use EmailJS-like approach via form submission
-      // For direct email, we open mailto as fallback
-      window.open(mailtoUrl, '_blank');
-
-      showToast('Opening your email client...', 'success');
+      // Store in localStorage for admin page
+      try {
+        const stored = JSON.parse(localStorage.getItem('cgpa_reports') || '[]');
+        stored.unshift({
+          id: Date.now(),
+          ...payload,
+          timestamp: payload.time,
+          sent: result.sent,
+        });
+        localStorage.setItem('cgpa_reports', JSON.stringify(stored.slice(0, 100))); // keep last 100
+      } catch { /* ignore storage errors */ }
 
       // Reset form after a delay
       setTimeout(() => {
@@ -657,10 +640,10 @@ export default function ReportBugPage() {
               </div>
               <div>
                 <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)' }}>
-                  Ready to send?
+                  Send Report
                 </div>
                 <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--ink-4)' }}>
-                  Your email client will open with a pre-filled report
+                  Report is sent directly to the admin via email
                 </div>
               </div>
             </div>
@@ -690,7 +673,7 @@ export default function ReportBugPage() {
               {sending ? (
                 <>
                   <i className="fa-solid fa-spinner fa-spin" />
-                  Preparing Report...
+                  Sending Report...
                 </>
               ) : (
                 <>
