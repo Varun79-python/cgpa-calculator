@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Subject, CalculationResult } from '@/types';
 import { calculateSGPA } from '@/utils/calculations/sgpaCalculator';
-import { GRADE_OPTIONS } from '@/config/constants';
+import { getGradeOptions, getSchema, GRADING_SCHEMAS, DEFAULT_SCHEMA, cleanNumericInput, VALIDATION } from '@/config/constants';
 import { useHistoryStore } from '@/store/useStore';
 import { showToast } from '@/components/Shared/Toast';
 import AnimatedNumber from '@/components/Shared/AnimatedNumber';
@@ -12,12 +12,38 @@ import GradeBarChart from '@/components/Visualizations/GradeBar';
 import { generatePDF } from '@/utils/pdf/pdfGenerator';
 
 export default function SGPAForm() {
+  const [schemaId, setSchemaId] = useState<string>(DEFAULT_SCHEMA);
   const [rows, setRows] = useState<Subject[]>([{ id: 1, name: '', credits: '', grade: '' }]);
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [showUpload, setShowUpload] = useState(false);
   const [exporting, setExporting] = useState(false);
   const addEntry = useHistoryStore(s => s.addEntry);
   const { loading, progress, processImage, reset: resetOCR } = useOCR();
+
+  const schema = getSchema(schemaId);
+  const gradeOptions = getGradeOptions(schemaId);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('cgpa-sg-inputs');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) setRows(parsed);
+      }
+      const savedSchema = localStorage.getItem('cgpa-schema');
+      if (savedSchema && GRADING_SCHEMAS.find(s => s.id === savedSchema)) {
+        setSchemaId(savedSchema);
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    try { localStorage.setItem('cgpa-sg-inputs', JSON.stringify(rows)); } catch {}
+  }, [rows]);
+
+  useEffect(() => {
+    try { localStorage.setItem('cgpa-schema', schemaId); } catch {}
+  }, [schemaId]);
 
   useEffect(() => {
     try {
@@ -162,6 +188,23 @@ export default function SGPAForm() {
 
   return (
     <div className="panel">
+      {/* University Schema Selector */}
+      <div style={{ marginBottom: 'var(--sp-4)', padding: 'var(--sp-3)', background: 'var(--surface-2)', borderRadius: 'var(--radius-lg)' }}>
+        <label style={{ display: 'block', fontSize: 'var(--text-2xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--ink-4)', marginBottom: 'var(--sp-2)' }}>
+          University Grading System
+        </label>
+        <select
+          value={schemaId}
+          onChange={(e) => { setSchemaId(e.target.value); setResult(null); }}
+          className="input"
+          style={{ fontSize: 'var(--text-xs)' }}
+        >
+          {GRADING_SCHEMAS.map(s => (
+            <option key={s.id} value={s.id}>{s.name}</option>
+          ))}
+        </select>
+      </div>
+
       <div className="sec-header">
         <span className="sec-label">
           <span className="sec-icon"><i className="fa-solid fa-layer-group" /></span>
@@ -245,11 +288,11 @@ export default function SGPAForm() {
                   <input type="text" placeholder={`Subject ${idx + 1}`} value={r.name} onChange={(e) => updateRow(r.id, 'name', e.target.value)} aria-label={`Subject ${idx + 1} name`} />
                 </td>
                 <td>
-                  <input type="number" min="0.5" max="30" step="0.5" placeholder="Cr" value={r.credits} onChange={(e) => updateRow(r.id, 'credits', e.target.value)} className={r.creditsErr ? 'invalid' : ''} aria-label={`Subject ${idx + 1} credits`} />
+                  <input type="number" min={VALIDATION.MIN_CREDITS} max={schema.maxCredits} step="0.5" placeholder="Cr" value={r.credits} onChange={(e) => updateRow(r.id, 'credits', e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addRow(); } }} className={r.creditsErr ? 'invalid' : ''} aria-label={`Subject ${idx + 1} credits`} />
                 </td>
                 <td>
                   <select value={r.grade} onChange={(e) => updateRow(r.id, 'grade', e.target.value)} className={r.gradeErr ? 'invalid' : ''} aria-label={`Subject ${idx + 1} grade`}>
-                    {GRADE_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                    {gradeOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                   </select>
                 </td>
                 <td>

@@ -10,6 +10,26 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          {/* Dark mode flash prevention — runs before paint */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  var theme = localStorage.getItem('cgpa-theme-mode');
+                  var root = document.documentElement;
+                  root.classList.remove('light', 'dark');
+                  if (theme === 'dark') {
+                    root.classList.add('dark');
+                  } else if (theme === 'system' || !theme) {
+                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                      root.classList.add('dark');
+                    }
+                  }
+                })();
+              `,
+            }}
+          />
+
           <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -25,14 +45,18 @@ export default class MyDocument extends Document {
             referrerPolicy="no-referrer"
           />
           <meta name="description" content="Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline. Free for Diploma, Degree, B.Tech & M.Tech students." />
-          <meta name="theme-color" content="#000000" />
+          <meta name="theme-color" content="#0A0A0A" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
           {/* Open Graph */}
           <meta property="og:type" content="website" />
           <meta property="og:title" content="CGPA Calculator — SGPA · Percentage · GPA" />
           <meta property="og:description" content="Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline." />
           <meta property="og:site_name" content="CGPA Calculator" />
+          <meta property="og:url" content="https://cgpa-calculator.vercel.app" />
+          <meta property="og:image" content="/icons/icon.svg" />
 
           {/* Twitter */}
           <meta name="twitter:card" content="summary" />

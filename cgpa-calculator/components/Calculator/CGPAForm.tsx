@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { CalculationResult } from '@/types';
 import { calculateCGPA } from '@/utils/calculations/cgpaCalculator';
 import { useHistoryStore, useDegreeStore } from '@/store/useStore';
-import { DEGREE_CONFIG } from '@/config/constants';
+import { DEGREE_CONFIG, VALIDATION, validateSGPA } from '@/config/constants';
 import { showToast } from '@/components/Shared/Toast';
 import AnimatedNumber from '@/components/Shared/AnimatedNumber';
 

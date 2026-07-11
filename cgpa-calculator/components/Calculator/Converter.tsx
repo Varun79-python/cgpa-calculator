@@ -3,6 +3,7 @@ import { UniversityFormula } from '@/types';
 import { UNIVERSITY_FORMULAS } from '@/config/universities';
 import { useHistoryStore } from '@/store/useStore';
 import { showToast } from '@/components/Shared/Toast';
+import { cleanNumericInput } from '@/config/constants';
 
 export default function Converter() {
   const [inA, setInA] = useState('');

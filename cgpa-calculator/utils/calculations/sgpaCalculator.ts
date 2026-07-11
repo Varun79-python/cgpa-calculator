@@ -1,4 +1,10 @@
 import { Subject, CalculationResult } from '@/types';
+import { safeDivide } from '@/config/constants';
+
+/** Round to fixed decimals to avoid floating-point issues */
+function roundTo(value: number, decimals: number): number {
+  return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
+}
 
 export function calculateSGPA(subjects: Subject[]): CalculationResult | null {
   if (!subjects.length) return null;
@@ -14,18 +20,19 @@ export function calculateSGPA(subjects: Subject[]): CalculationResult | null {
 
     if (isNaN(credits) || isNaN(grade) || credits <= 0 || grade < 0) continue;
 
-    totalCredits += credits;
-    totalPoints += credits * grade;
+    totalCredits = roundTo(totalCredits + credits, 4);
+    totalPoints = roundTo(totalPoints + (credits * grade), 4);
     validCount++;
 
     const gradeKey = getGradeLetter(grade);
     distribution[gradeKey] = (distribution[gradeKey] || 0) + 1;
   }
 
-  if (totalCredits === 0 || validCount === 0) return null;
+  // Zero-credit trap protection
+  if (totalCredits <= 0 || validCount === 0) return null;
 
-  const sgpa = parseFloat((totalPoints / totalCredits).toFixed(2));
-  const percentage = parseFloat(((sgpa - 0.5) * 10).toFixed(2));
+  const sgpa = roundTo(safeDivide(totalPoints, totalCredits), 2);
+  const percentage = roundTo(Math.max(0, (sgpa - 0.5) * 10), 2);
 
   return {
     num: sgpa,
@@ -36,13 +43,13 @@ export function calculateSGPA(subjects: Subject[]): CalculationResult | null {
 }
 
 export function getGradeLetter(gradePoint: number): string {
-  if (gradePoint >= 10) return 'O';        // O/S/A+ = 10
-  if (gradePoint >= 9) return 'A';         // A = 9
-  if (gradePoint >= 8) return 'B+';        // B+/B = 8
-  if (gradePoint >= 7) return 'C+';        // C+/C = 7
-  if (gradePoint >= 6) return 'D';         // D = 6
-  if (gradePoint >= 5) return 'E';         // E = 5
-  return 'F';                               // F/AB = 0
+  if (gradePoint >= 10) return 'O';
+  if (gradePoint >= 9) return 'A';
+  if (gradePoint >= 8) return 'B+';
+  if (gradePoint >= 7) return 'C+';
+  if (gradePoint >= 6) return 'D';
+  if (gradePoint >= 5) return 'E';
+  return 'F';
 }
 
 export function getGradeColor(gradePoint: number): string {

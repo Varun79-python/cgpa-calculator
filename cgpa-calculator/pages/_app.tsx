@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ToastContainer } from '@/components/Shared/Toast';
 import CommandPalette from '@/components/CommandPalette/CommandPalette';
+import NetworkStatus from '@/components/Shared/NetworkStatus';
 import { useThemeStore, applyThemeClass } from '@/store/useStore';
 import '@/styles/globals.css';
 
@@ -38,6 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
       <ToastContainer />
       <CommandPalette />
+      <NetworkStatus />
     </div>
   );
 }
