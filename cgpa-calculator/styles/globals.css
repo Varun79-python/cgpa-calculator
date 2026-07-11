@@ -98,6 +98,7 @@ html {
   overflow-x: hidden;
 }
 
+/* ─── MOBILE: fitted narrow centered card ─── */
 body {
   font-family: var(--font-sans);
   font-size: var(--text-sm);
@@ -107,12 +108,41 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  padding: var(--sp-8) var(--sp-5);
+  align-items: flex-start;
+  padding: var(--sp-4) var(--sp-3);
   overflow-x: hidden;
   touch-action: pan-y;
 }
 
-#__next { width: 100%; max-width: 680px; }
+/* Mobile: card fills screen width with small margin */
+#__next {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Tablet */
+@media (min-width: 600px) {
+  body { padding: var(--sp-6) var(--sp-4); }
+  #__next { max-width: 600px; }
+}
+
+/* ─── DESKTOP: full-width, fills entire viewport ─── */
+@media (min-width: 1024px) {
+  body {
+    padding: 0;           /* no body padding — app fills edge to edge */
+    display: block;        /* remove flex centering */
+    overflow: auto;
+  }
+  #__next {
+    max-width: 100%;       /* full viewport width */
+    width: 100%;
+  }
+  .page-transition {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+}
 
 /* ─── FOCUS ─── */
 :focus-visible {
@@ -143,6 +173,7 @@ body {
    APP SHELL
    ═══════════════════════════════════════════ */
 
+/* Mobile app card */
 .app {
   width: 100%;
   max-width: 100%;
@@ -155,9 +186,88 @@ body {
   touch-action: pan-y;
 }
 
+/* Desktop: app fills full width, no card border/shadow — becomes the page itself */
+@media (min-width: 1024px) {
+  .app {
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    box-shadow: none;
+    min-height: 100vh;
+    flex: 1;
+  }
+
+  /* Full-width header */
+  .app-header {
+    padding: var(--sp-4) var(--sp-10);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--surface);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Full-width tabs */
+  .tabs-marquee {
+    margin: var(--sp-2) var(--sp-8) 0;
+  }
+
+  /* Wider panels */
+  .panel {
+    padding: var(--sp-8) var(--sp-10);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* Semester grid: up to 8 columns but with min-width */
+  .sem-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  /* Table spacing */
+  th { padding: var(--sp-3) var(--sp-5); }
+  td { padding: var(--sp-3) var(--sp-4); }
+
+  /* Result card */
+  .result-card {
+    padding: var(--sp-12) var(--sp-10);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .result-number { font-size: 4.5rem; }
+
+  /* Converter */
+  .conv-grid { gap: var(--sp-10); }
+
+  /* Bigger brand */
+  .brand-mark { width: 40px; height: 40px; font-size: var(--text-sm); }
+  .brand-text h1 { font-size: var(--text-lg); }
+  .brand-text p { font-size: var(--text-xs); }
+
+  /* Section headers */
+  .sec-header { margin-bottom: var(--sp-6); }
+}
+
 @keyframes appIn {
   from { opacity: 0; transform: translateY(12px) scale(0.99); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ─── DASHBOARD SECTION WRAPPER ─── */
+/* Full-width on mobile, centered content on desktop */
+.dash-section {
+  padding: var(--sp-5) var(--sp-4);
+}
+
+@media (min-width: 1024px) {
+  .dash-section {
+    padding: var(--sp-8) var(--sp-10);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 /* ═══ HEADER ═══ */
@@ -247,13 +357,38 @@ body {
 .icon-btn span { font-size: var(--text-2xs); font-weight: 500; }
 
 /* ═══ TABS ═══ */
+
+/* Visibility helpers — swap between marquee (mobile) and static row (desktop) */
+.tabs-mobile-only  { display: block; }
+.tabs-desktop-only { display: none;  }
+
+@media (min-width: 1024px) {
+  .tabs-mobile-only  { display: none;  }
+  .tabs-desktop-only { display: flex; justify-content: center; padding: var(--sp-3) var(--sp-6) 0; }
+}
+
+/* Shared tab strip */
 .tabs {
   display: flex;
   gap: var(--sp-1);
   padding: var(--sp-1);
-  margin: var(--sp-2) var(--sp-2) 0;
   background: var(--surface-2);
   border-radius: var(--radius-lg);
+  /* Mobile: fills full width inside marquee-content */
+  margin: 0;
+}
+
+/* Desktop tab strip — centered, not stretched to full 1400px */
+@media (min-width: 1024px) {
+  .tabs {
+    width: auto;
+    display: inline-flex;   /* shrink-wrap to tabs, not full width */
+    gap: var(--sp-2);
+    padding: var(--sp-1);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-solid);
+    box-shadow: var(--shadow-sm);
+  }
 }
 
 .tab {
@@ -274,11 +409,24 @@ body {
   cursor: pointer;
   transition: all var(--dur-base) var(--ease);
   -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
 }
 
-.tab:hover { color: var(--ink-2); }
+/* Desktop: tabs are natural width, not stretched */
+@media (min-width: 1024px) {
+  .tab {
+    flex: 0 0 auto;
+    padding: 0 var(--sp-4);
+    font-size: var(--text-sm);
+    height: 38px;
+    border-radius: var(--radius-md);
+  }
+}
 
-.tab[aria-selected="true"] {
+.tab:hover { color: var(--ink-2); background: var(--surface-3); }
+
+.tab[aria-selected="true"],
+.tab.active {
   background: var(--surface);
   color: var(--accent);
   font-weight: 600;
@@ -287,7 +435,7 @@ body {
 
 .tab i { font-size: 0.8rem; }
 
-/* ═══ TABS MARQUEE — Seamless Infinite Loop ═══ */
+/* ═══ TABS MARQUEE — Mobile only, Seamless Infinite Loop ═══ */
 .tabs-marquee {
   overflow: hidden;
   margin: var(--sp-2) var(--sp-2) 0;
@@ -295,14 +443,14 @@ body {
   border-radius: var(--radius-lg);
   position: relative;
   z-index: 1;
-  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
 .tabs-marquee-track {
   display: flex;
   width: max-content;
-  animation: marqueeScroll 25s linear infinite;
+  animation: marqueeScroll 20s linear infinite;
   -webkit-user-select: none;
   user-select: none;
 }
@@ -319,7 +467,7 @@ body {
 }
 
 @keyframes marqueeScroll {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
@@ -333,14 +481,25 @@ body {
   width: 100%;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  margin: 0 var(--sp-4);
 }
 
 .banner-carousel-track {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 6;
+  aspect-ratio: 2 / 1;
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .banner-carousel-track {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (min-width: 1024px) {
+  .banner-carousel-track {
+    aspect-ratio: 21 / 9;
+  }
 }
 
 .banner-carousel-slide {
@@ -1865,14 +2024,19 @@ aside {
   }
 }
 
-/* ═══ LARGE DESKTOP (1024px+) ═══ */
+/* ═══ LARGE DESKTOP EXTRAS (hero, stats) ═══ */
 @media (min-width: 1024px) {
-  body {
-    padding: var(--sp-8) var(--sp-6);
+  .hero {
+    padding: var(--sp-10) var(--sp-8);
   }
 
-  .app {
-    max-width: 720px;
+  .hero h2 {
+    font-size: var(--text-4xl);
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-4);
   }
 }
 

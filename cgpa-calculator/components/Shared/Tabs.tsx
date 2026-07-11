@@ -30,23 +30,35 @@ export default function Tabs() {
   const [isPaused, setIsPaused] = useState(false);
 
   return (
-    <div
-      className="tabs-marquee"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      <div className={`tabs-marquee-track ${isPaused ? 'paused' : ''}`}>
-        <div className="tabs-marquee-content">
+    <>
+      {/* ── MOBILE: scrolling marquee ── */}
+      <div
+        className="tabs-marquee tabs-mobile-only"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        <div className={`tabs-marquee-track ${isPaused ? 'paused' : ''}`}>
+          <div className="tabs-marquee-content">
+            {TABS.map((t) => (
+              <TabButton key={t.id} tab={t} currentPath={currentPath} router={router} />
+            ))}
+          </div>
+          <div className="tabs-marquee-content" aria-hidden="true">
+            {TABS.map((t) => (
+              <TabButton key={`dup-${t.id}`} tab={t} currentPath={currentPath} router={router} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── DESKTOP: static centered tab row ── */}
+      <div className="tabs-desktop-only" role="tablist" aria-label="Calculator sections">
+        <div className="tabs">
           {TABS.map((t) => (
             <TabButton key={t.id} tab={t} currentPath={currentPath} router={router} />
           ))}
         </div>
-        <div className="tabs-marquee-content" aria-hidden="true">
-          {TABS.map((t) => (
-            <TabButton key={`dup-${t.id}`} tab={t} currentPath={currentPath} router={router} />
-          ))}
-        </div>
       </div>
-    </div>
+    </>
   );
 }

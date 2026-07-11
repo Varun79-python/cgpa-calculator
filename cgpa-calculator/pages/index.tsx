@@ -39,12 +39,12 @@ export default function Dashboard() {
         <Tabs />
 
         {/* Banner Carousel */}
-        <div style={{ padding: 'var(--sp-6) var(--sp-4)' }}>
+        <div className="dash-section">
           <BannerCarousel folder="/banners" interval={4000} />
         </div>
 
         {/* Features Grid */}
-        <div style={{ padding: 'var(--sp-6) var(--sp-4)' }}>
+        <div className="dash-section" style={{ borderTop: '1px solid var(--border-solid)' }}>
           <div style={{
             fontSize: '0.75rem',
             fontWeight: 600,
@@ -59,8 +59,8 @@ export default function Dashboard() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-            gap: 'var(--sp-3)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gap: 'var(--sp-4)',
           }}>
             {FEATURES.map((f, i) => (
               <div
@@ -74,7 +74,7 @@ export default function Dashboard() {
                   else if (f.label.includes('OCR')) router.push('/calculator/sgpa');
                 }}
                 style={{
-                  padding: 'var(--sp-4) var(--sp-3)',
+                  padding: 'var(--sp-5) var(--sp-4)',
                   background: 'var(--surface)',
                   border: '1px solid var(--border-solid)',
                   borderRadius: 'var(--radius-lg)',
@@ -84,8 +84,8 @@ export default function Dashboard() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--ink-faint)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-md)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border-solid)';
@@ -94,8 +94,8 @@ export default function Dashboard() {
                 }}
               >
                 <div style={{
-                  width: '40px',
-                  height: '40px',
+                  width: '48px',
+                  height: '48px',
                   margin: '0 auto var(--sp-3)',
                   borderRadius: 'var(--radius-md)',
                   background: 'var(--surface-2)',
@@ -103,14 +103,14 @@ export default function Dashboard() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'var(--ink)',
-                  fontSize: '1rem',
+                  fontSize: '1.1rem',
                 }}>
                   <i className={f.icon} />
                 </div>
-                <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)', marginBottom: '4px' }}>
+                <div style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}>
                   {f.label}
                 </div>
-                <div style={{ fontSize: '0.65rem', color: 'var(--ink-3)', lineHeight: 1.4 }}>
+                <div style={{ fontSize: '0.7rem', color: 'var(--ink-3)', lineHeight: 1.5 }}>
                   {f.desc}
                 </div>
               </div>
@@ -119,10 +119,7 @@ export default function Dashboard() {
         </div>
 
         {/* Supported Universities */}
-        <div style={{
-          padding: 'var(--sp-6) var(--sp-4)',
-          borderTop: '1px solid var(--border-solid)',
-        }}>
+        <div className="dash-section" style={{ borderTop: '1px solid var(--border-solid)' }}>
           <div style={{
             fontSize: '0.75rem',
             fontWeight: 600,
