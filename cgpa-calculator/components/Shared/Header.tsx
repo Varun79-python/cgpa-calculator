@@ -15,7 +15,7 @@ export default function Header() {
       <a href="#main-content" className="skip-link">Skip to content</a>
       <div className="brand" onClick={() => router.push('/')}>
         <div className="brand-mark">
-          {DEGREE_CONFIG[degree].shortLabel[0]}
+          <img src="/icons/icon-48x48.png" alt="CGPA Calculator" width="32" height="32" style={{ display: 'block', borderRadius: 'var(--radius-md)' }} />
         </div>
         <div className="brand-text">
           <h1><span style={{ color: 'var(--ink)' }}>CGPA</span> <span style={{ color: 'var(--accent)' }}>Calculator</span></h1>

@@ -31,6 +31,8 @@ export default class MyDocument extends Document {
           />
 
           <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+          <link rel="icon" href="/icons/icon-48x48.png" sizes="48x48" type="image/png" />
+          <link rel="icon" href="/icons/icon-192x192.png" sizes="192x192" type="image/png" />
           <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -64,7 +66,9 @@ export default class MyDocument extends Document {
           <meta property="og:description" content="Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline." />
           <meta property="og:site_name" content="CGPA Calculator" />
           <meta property="og:url" content="https://cgpa-calculator.vercel.app" />
-          <meta property="og:image" content="/icons/icon.svg" />
+          <meta property="og:image" content="/icons/icon-512x512.png" />
+          <meta property="og:image:width" content="512" />
+          <meta property="og:image:height" content="512" />
 
           {/* Twitter */}
           <meta name="twitter:card" content="summary" />
