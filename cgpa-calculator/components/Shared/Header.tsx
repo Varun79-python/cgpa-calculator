@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useDegreeStore, useHistoryStore, useUIStore } from '@/store/useStore';
+import { useDegreeStore, useHistoryStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 import ThemeToggle from './ThemeToggle';
 import DegreeSwitcher from './DegreeSwitcher';
@@ -8,7 +8,6 @@ export default function Header() {
   const router = useRouter();
   const degree = useDegreeStore(s => s.degree);
   const history = useHistoryStore(s => s.history);
-  const setSidebarOpen = useUIStore(s => s.setSidebarOpen);
   const label = DEGREE_CONFIG[degree].label;
 
   return (
@@ -27,9 +26,9 @@ export default function Header() {
         <DegreeSwitcher />
         <button
           className="icon-btn"
-          onClick={() => setSidebarOpen(true)}
-          title="History (Ctrl+Shift+H)"
-          aria-label="Open history"
+          onClick={() => router.push('/history')}
+          title="History"
+          aria-label="View history"
           style={{ position: 'relative' }}
         >
           <i className="fa-solid fa-clock-rotate-left" />
