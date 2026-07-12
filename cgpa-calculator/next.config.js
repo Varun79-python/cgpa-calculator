@@ -77,7 +77,7 @@ const nextConfig = withPWA({
     return [
       {
         source: '/.well-known/assetlinks.json',
-        destination: '/api/.well-known/assetlinks',
+        destination: '/api/assetlinks',
       },
     ];
   },

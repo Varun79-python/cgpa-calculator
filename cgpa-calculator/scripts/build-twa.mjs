@@ -17,7 +17,7 @@
  *   - JDK 17+ at C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot (or set JAVA_HOME)
  */
 
-import { mkdirSync, existsSync, copyFileSync, rmSync, writeFileSync, readFileSync } from 'fs';
+import { mkdirSync, existsSync, copyFileSync, rmSync, writeFileSync, readFileSync, copySync } from 'fs';
 import { join, resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync, spawn } from 'child_process';
@@ -196,6 +196,14 @@ function patchProject() {
     let content = readFileSync(appBuildGradle, 'utf8');
     content = content.replace(/http:\/\/localhost:\d+/g, PROD_URL);
     writeFileSync(appBuildGradle, content);
+  }
+
+  // Ensure custom SplashActivity.java is in place (preserve custom splash)
+  const splashSrc = join(ROOT, 'twa-build', 'app', 'src', 'main', 'java', 'com', 'cgpacalculator', 'app', 'SplashActivity.java');
+  const splashBackup = join(ROOT, 'scripts', 'SplashActivity.java');
+  if (existsSync(splashBackup) && !existsSync(splashSrc)) {
+    copyFileSync(splashBackup, splashSrc);
+    log('  Restored custom SplashActivity.java');
   }
 
   log('  Project patched for production');
