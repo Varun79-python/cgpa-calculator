@@ -13,7 +13,7 @@ import { useBreakpoint } from '@/hooks/useBreakpoint';
 const APP_NAME = 'CGPA Calculator';
 const APP_URL = 'https://cgpacalculator7.vercel.app';
 const SHARE_TEXT = 'Check out this amazing CGPA Calculator app! Calculate SGPA, CGPA, convert to percentage, and more - all offline!';
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.supplecostadmin.cgpacalculator';
+const APK_URL = '/CGPA-Calculator.apk';
 
 export default function DownloadPage() {
   const degree = useDegreeStore(s => s.degree);
@@ -107,9 +107,8 @@ export default function DownloadPage() {
 
               {/* Download Button */}
               <a
-                href={PLAY_STORE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={APK_URL}
+                download
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -127,8 +126,8 @@ export default function DownloadPage() {
                   transition: 'all 0.2s ease',
                 }}
               >
-                <i className="fa-brands fa-google-play" />
-                Get on Play Store
+                <i className="fa-solid fa-download" />
+                Download APK
               </a>
             </div>
           </div>
