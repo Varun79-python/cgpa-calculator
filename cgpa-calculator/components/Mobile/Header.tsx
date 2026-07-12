@@ -4,7 +4,6 @@ import { useDegreeStore, useHistoryStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 import ThemeToggle from '@/components/Shared/ThemeToggle';
 import DegreeSwitcher from '@/components/Shared/DegreeSwitcher';
-import { useIsTWA } from '@/hooks/useIsTWA';
 
 const NAV_GROUPS = [
   {
@@ -38,7 +37,6 @@ export default function MobileHeader() {
   const degree = useDegreeStore(s => s.degree);
   const history = useHistoryStore(s => s.history);
   const label = DEGREE_CONFIG[degree].label;
-  const isTWA = useIsTWA();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -102,16 +100,14 @@ export default function MobileHeader() {
               </span>
             )}
           </button>
-          {!isTWA && (
-            <button
-              className="icon-btn"
-              onClick={() => router.push('/download')}
-              title="Share app"
-              aria-label="Share the app"
-            >
-              <i className="fa-solid fa-share-nodes" />
-            </button>
-          )}
+          <button
+            className="icon-btn"
+            onClick={() => router.push('/download')}
+            title="Share app"
+            aria-label="Share the app"
+          >
+            <i className="fa-solid fa-share-nodes" />
+          </button>
           <ThemeToggle />
 
           {/* Hamburger — rightmost */}
@@ -202,11 +198,7 @@ export default function MobileHeader() {
 
         {/* Nav groups */}
         <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--sp-3) var(--sp-3)' }}>
-          {NAV_GROUPS.map((group) => {
-            const filteredItems = isTWA
-              ? group.items.filter(item => !('path' in item) || item.path !== '/download').filter(item => !('href' in item))
-              : group.items;
-            return (
+          {NAV_GROUPS.map((group) => (
               <div key={group.label} style={{ marginBottom: 'var(--sp-4)' }}>
                 <div style={{
                   fontSize: '0.6rem',
@@ -220,7 +212,7 @@ export default function MobileHeader() {
                   {group.label}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
-                  {filteredItems.map((item) => {
+                  {group.items.map((item) => {
                     const isAccent = 'accent' in item && item.accent;
                     const isExternal = 'href' in item;
                     return (
@@ -262,8 +254,7 @@ export default function MobileHeader() {
                   })}
                 </div>
               </div>
-            );
-          })}
+            ))}
         </div>
 
         {/* Footer */}

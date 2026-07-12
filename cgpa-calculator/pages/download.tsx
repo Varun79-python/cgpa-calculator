@@ -1,13 +1,11 @@
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Header from '@/components/Responsive/Header';
 import Footer from '@/components/Responsive/Footer';
 import Tabs from '@/components/Responsive/Tabs';
 import HistorySidebar from '@/components/Responsive/HistorySidebar';
 import { useDegreeStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
-import { useIsTWA } from '@/hooks/useIsTWA';
 import { useBreakpoint } from '@/hooks/useBreakpoint';
 
 const APP_NAME = 'CGPA Calculator';
@@ -18,16 +16,8 @@ const APK_URL = '/apk/cgpacalculator.apk';
 export default function DownloadPage() {
   const degree = useDegreeStore(s => s.degree);
   const label = DEGREE_CONFIG[degree].label;
-  const isTWA = useIsTWA();
   const { isMobile } = useBreakpoint();
-  const router = useRouter();
   const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'shared'>('idle');
-
-  useEffect(() => {
-    if (isTWA) {
-      router.replace('/');
-    }
-  }, [isTWA, router]);
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -54,8 +44,6 @@ export default function DownloadPage() {
       setTimeout(() => setShareStatus('idle'), 2000);
     });
   };
-
-  if (isTWA) return null;
 
   return (
     <>
