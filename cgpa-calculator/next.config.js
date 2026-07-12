@@ -71,6 +71,13 @@ const nextConfig = withPWA({
           { key: 'Access-Control-Allow-Origin', value: '*' },
         ],
       },
+      {
+        source: '/(.*)\\.apk',
+        headers: [
+          { key: 'Content-Type', value: 'application/vnd.android.package-archive' },
+          { key: 'Content-Disposition', value: 'attachment' },
+        ],
+      },
     ];
   },
   async rewrites() {
