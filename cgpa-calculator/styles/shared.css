@@ -295,15 +295,18 @@ body {
   width: 100%;
   overflow: hidden;
   border-radius: var(--radius-lg);
+  padding: var(--sp-2);
 }
 
 .banner-carousel-track {
   width: 100%;
   overflow: hidden;
+  border-radius: calc(var(--radius-lg) - 4px);
 }
 
 .banner-carousel-slide {
   overflow: hidden;
+  border-radius: calc(var(--radius-lg) - 4px);
 }
 
 .banner-carousel-slide img {
@@ -311,6 +314,7 @@ body {
   height: auto;
   object-fit: cover;
   display: block;
+  border-radius: calc(var(--radius-lg) - 4px);
 }
 
 /* ─── PANELS ─── */

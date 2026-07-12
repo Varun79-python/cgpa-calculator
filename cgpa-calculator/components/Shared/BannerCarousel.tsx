@@ -64,13 +64,13 @@ export default function BannerCarousel({ folder = '/banners', interval = 4500 }:
   if (banners.length === 0) return null;
   if (banners.length === 1) {
     return (
-      <div className="banner-carousel" style={{ width: '100%', overflow: 'hidden', borderRadius: 'var(--radius-lg)' }}>
-        <div className="banner-carousel-track" style={{ width: '100%', overflow: 'hidden' }}>
+      <div className="banner-carousel" style={{ width: '100%', overflow: 'hidden', borderRadius: 'var(--radius-lg)', padding: 'var(--sp-2)' }}>
+        <div className="banner-carousel-track" style={{ width: '100%', overflow: 'hidden', borderRadius: 'calc(var(--radius-lg) - 4px)' }}>
           <div style={{ width: '100%' }}>
             <img
               src={banners[0]}
               alt="Banner"
-              style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+              style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover', borderRadius: 'calc(var(--radius-lg) - 4px)' }}
             />
           </div>
         </div>
