@@ -1,0 +1,3 @@
+-keep class com.google.androidbrowserhelper.** { *; }
+-keep class androidx.browser.** { *; }
+-keep class com.cgpacalculator.app.** { *; }
