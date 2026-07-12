@@ -3,12 +3,14 @@ import { useDegreeStore, useHistoryStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 import ThemeToggle from './ThemeToggle';
 import DegreeSwitcher from './DegreeSwitcher';
+import { useIsTWA } from '@/hooks/useIsTWA';
 
 export default function Header() {
   const router = useRouter();
   const degree = useDegreeStore(s => s.degree);
   const history = useHistoryStore(s => s.history);
   const label = DEGREE_CONFIG[degree].label;
+  const isTWA = useIsTWA();
 
   return (
     <header className="app-header">
@@ -45,14 +47,16 @@ export default function Header() {
             </span>
           )}
         </button>
-        <button
-          className="icon-btn"
-          onClick={() => router.push('/download')}
-          title="Share app"
-          aria-label="Share the app"
-        >
-          <i className="fa-solid fa-share-nodes" />
-        </button>
+        {!isTWA && (
+          <button
+            className="icon-btn"
+            onClick={() => router.push('/download')}
+            title="Share app"
+            aria-label="Share the app"
+          >
+            <i className="fa-solid fa-share-nodes" />
+          </button>
+        )}
         <ThemeToggle />
       </div>
     </header>

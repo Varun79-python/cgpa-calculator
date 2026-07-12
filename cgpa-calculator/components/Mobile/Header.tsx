@@ -4,6 +4,7 @@ import { useDegreeStore, useHistoryStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 import ThemeToggle from '@/components/Shared/ThemeToggle';
 import DegreeSwitcher from '@/components/Shared/DegreeSwitcher';
+import { useIsTWA } from '@/hooks/useIsTWA';
 
 const NAV_GROUPS = [
   {
@@ -37,6 +38,7 @@ export default function MobileHeader() {
   const degree = useDegreeStore(s => s.degree);
   const history = useHistoryStore(s => s.history);
   const label = DEGREE_CONFIG[degree].label;
+  const isTWA = useIsTWA();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -100,14 +102,16 @@ export default function MobileHeader() {
               </span>
             )}
           </button>
-          <button
-            className="icon-btn"
-            onClick={() => router.push('/download')}
-            title="Share app"
-            aria-label="Share the app"
-          >
-            <i className="fa-solid fa-share-nodes" />
-          </button>
+          {!isTWA && (
+            <button
+              className="icon-btn"
+              onClick={() => router.push('/download')}
+              title="Share app"
+              aria-label="Share the app"
+            >
+              <i className="fa-solid fa-share-nodes" />
+            </button>
+          )}
           <ThemeToggle />
 
           {/* Hamburger — rightmost */}
@@ -198,63 +202,68 @@ export default function MobileHeader() {
 
         {/* Nav groups */}
         <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--sp-3) var(--sp-3)' }}>
-          {NAV_GROUPS.map((group) => (
-            <div key={group.label} style={{ marginBottom: 'var(--sp-4)' }}>
-              <div style={{
-                fontSize: '0.6rem',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                color: 'var(--ink-4)',
-                marginBottom: 'var(--sp-1)',
-                padding: 'var(--sp-1) var(--sp-2)',
-              }}>
-                {group.label}
+          {NAV_GROUPS.map((group) => {
+            const filteredItems = isTWA
+              ? group.items.filter(item => !('path' in item) || item.path !== '/download')
+              : group.items;
+            return (
+              <div key={group.label} style={{ marginBottom: 'var(--sp-4)' }}>
+                <div style={{
+                  fontSize: '0.6rem',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                  color: 'var(--ink-4)',
+                  marginBottom: 'var(--sp-1)',
+                  padding: 'var(--sp-1) var(--sp-2)',
+                }}>
+                  {group.label}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
+                  {filteredItems.map((item) => {
+                    const isAccent = 'accent' in item && item.accent;
+                    const isExternal = 'href' in item;
+                    return (
+                      <a
+                        key={item.label}
+                        onClick={() => {
+                          setDrawerOpen(false);
+                          if (isExternal && 'href' in item) {
+                            window.location.href = item.href;
+                          } else if ('path' in item) {
+                            router.push(item.path);
+                          }
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 'var(--sp-2)',
+                          padding: 'var(--sp-2) var(--sp-2)',
+                          borderRadius: 'var(--radius-md)',
+                          fontSize: 'var(--text-xs)',
+                          fontWeight: isAccent ? 600 : 500,
+                          color: isAccent ? 'var(--accent)' : 'var(--ink)',
+                          cursor: 'pointer',
+                          textDecoration: 'none',
+                          transition: 'background 0.1s ease',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--surface-2)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                      >
+                        <i className={item.icon} style={{
+                          width: '20px',
+                          textAlign: 'center',
+                          fontSize: '0.7rem',
+                          color: isAccent ? 'var(--accent)' : 'var(--ink-4)',
+                        }} />
+                        {item.label}
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1px' }}>
-                {group.items.map((item) => {
-                  const isAccent = 'accent' in item && item.accent;
-                  const isExternal = 'href' in item;
-                  return (
-                    <a
-                      key={item.label}
-                      onClick={() => {
-                        setDrawerOpen(false);
-                        if (isExternal && 'href' in item) {
-                          window.location.href = item.href;
-                        } else if ('path' in item) {
-                          router.push(item.path);
-                        }
-                      }}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 'var(--sp-2)',
-                        padding: 'var(--sp-2) var(--sp-2)',
-                        borderRadius: 'var(--radius-md)',
-                        fontSize: 'var(--text-xs)',
-                        fontWeight: isAccent ? 600 : 500,
-                        color: isAccent ? 'var(--accent)' : 'var(--ink)',
-                        cursor: 'pointer',
-                        textDecoration: 'none',
-                        transition: 'background 0.1s ease',
-                      }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--surface-2)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
-                    >
-                      <i className={item.icon} style={{
-                        width: '20px',
-                        textAlign: 'center',
-                        fontSize: '0.7rem',
-                        color: isAccent ? 'var(--accent)' : 'var(--ink-4)',
-                      }} />
-                      {item.label}
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Footer */}
