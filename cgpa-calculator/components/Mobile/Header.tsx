@@ -20,7 +20,7 @@ const NAV_GROUPS = [
     items: [
       { label: 'History', icon: 'fa-solid fa-clock-rotate-left', path: '/history' },
       { label: 'Export PDF', icon: 'fa-solid fa-file-pdf', path: '/export' },
-      { label: 'Download App', icon: 'fa-solid fa-download', path: '/download' },
+      { label: 'Share App', icon: 'fa-solid fa-share-nodes', path: '/download' },
     ],
   },
   {
@@ -103,10 +103,10 @@ export default function MobileHeader() {
           <button
             className="icon-btn"
             onClick={() => router.push('/download')}
-            title="Download app"
-            aria-label="Download the app"
+            title="Share app"
+            aria-label="Share the app"
           >
-            <i className="fa-solid fa-download" />
+            <i className="fa-solid fa-share-nodes" />
           </button>
           <ThemeToggle />
 

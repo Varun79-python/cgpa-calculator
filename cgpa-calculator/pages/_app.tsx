@@ -1,19 +1,24 @@
 import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { ToastContainer } from '@/components/Shared/Toast';
 import CommandPalette from '@/components/CommandPalette/CommandPalette';
 import NetworkStatus from '@/components/Shared/NetworkStatus';
 import ErrorBoundary from '@/components/Shared/ErrorBoundary';
 import { useThemeStore, applyThemeClass } from '@/store/useStore';
+import { useBreakpoint } from '@/hooks/useBreakpoint';
 import '@/styles/shared.css';
 import '@/styles/mobile.css';
 import '@/styles/desktop.css';
+
+const BottomNav = dynamic(() => import('@/components/Mobile/BottomNav'), { ssr: false });
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayComponent, setDisplayComponent] = useState(false);
+  const { isMobile } = useBreakpoint();
 
   useEffect(() => {
     const theme = useThemeStore.getState().theme;
@@ -64,6 +69,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ToastContainer />
         <CommandPalette />
         <NetworkStatus />
+        {isMobile && <BottomNav />}
       </div>
     </ErrorBoundary>
   );

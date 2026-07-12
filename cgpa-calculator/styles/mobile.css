@@ -382,3 +382,48 @@ td input, td select {
 aside {
   max-width: 100%;
 }
+
+/* ─── BOTTOM NAVIGATION BAR ─── */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--bg);
+  border-top: 1px solid var(--border-solid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--accent);
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.bottom-nav-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Add padding to main content to account for fixed bottom nav */
+@media (max-width: 599px) {
+  main {
+    padding-bottom: 70px !important;
+  }
+}

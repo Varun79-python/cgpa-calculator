@@ -48,10 +48,10 @@ export default function Header() {
         <button
           className="icon-btn"
           onClick={() => router.push('/download')}
-          title="Download app"
-          aria-label="Download the app"
+          title="Share app"
+          aria-label="Share the app"
         >
-          <i className="fa-solid fa-download" />
+          <i className="fa-solid fa-share-nodes" />
         </button>
         <ThemeToggle />
       </div>

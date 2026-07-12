@@ -7,20 +7,46 @@ import HistorySidebar from '@/components/Responsive/HistorySidebar';
 import { useDegreeStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 
-const APK_URL = '/apk/cgpa-calculator-v1.0.0.apk';
-const APK_SIZE = '~4 MB';
-const APP_VERSION = '1.0.0';
+const APP_NAME = 'CGPA Calculator';
+const APP_URL = 'https://cgpa-calculator.vercel.app';
+const SHARE_TEXT = 'Check out this amazing CGPA Calculator app! Calculate SGPA, CGPA, convert to percentage, and more - all offline!';
 
 export default function DownloadPage() {
   const degree = useDegreeStore(s => s.degree);
   const label = DEGREE_CONFIG[degree].label;
-  const [installMethod, setInstallMethod] = useState<'pwa' | 'apk'>('pwa');
+  const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'shared'>('idle');
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: APP_NAME,
+          text: SHARE_TEXT,
+          url: APP_URL,
+        });
+        setShareStatus('shared');
+        setTimeout(() => setShareStatus('idle'), 2000);
+      } catch (err) {
+        // User cancelled or error occurred
+        fallbackCopyToClipboard();
+      }
+    } else {
+      fallbackCopyToClipboard();
+    }
+  };
+
+  const fallbackCopyToClipboard = () => {
+    navigator.clipboard.writeText(`${SHARE_TEXT}\n\n${APP_URL}`).then(() => {
+      setShareStatus('copied');
+      setTimeout(() => setShareStatus('idle'), 2000);
+    });
+  };
 
   return (
     <>
       <Head>
-        <title>Download — {label} CGPA Calculator</title>
-        <meta name="description" content="Download the CGPA Calculator app for Android. Install as PWA or download the APK for offline use." />
+        <title>Share — {label} CGPA Calculator</title>
+        <meta name="description" content="Share the CGPA Calculator app with your friends and classmates." />
       </Head>
       <div className="app">
         <Header />
@@ -28,226 +54,178 @@ export default function DownloadPage() {
         <main id="main-content" className="panel">
           <div className="sec-header">
             <span className="sec-label">
-              <span className="sec-icon"><i className="fa-solid fa-download" /></span>
-              Download App
+              <span className="sec-icon"><i className="fa-solid fa-share-nodes" /></span>
+              Share App
             </span>
           </div>
 
-          {/* Install Method Toggle */}
-          <div style={{
-            display: 'flex',
-            gap: 'var(--sp-2)',
-            marginBottom: 'var(--sp-6)',
-            background: 'var(--surface-2)',
-            borderRadius: '12px',
-            padding: '4px',
-          }}>
-            <button
-              onClick={() => setInstallMethod('pwa')}
-              style={{
-                flex: 1,
-                padding: 'var(--sp-3) var(--sp-4)',
-                border: 'none',
-                borderRadius: '10px',
-                background: installMethod === 'pwa' ? 'var(--accent)' : 'transparent',
-                color: installMethod === 'pwa' ? 'white' : 'var(--ink-3)',
-                cursor: 'pointer',
-                fontSize: 'var(--text-xs)',
-                fontWeight: 600,
-                fontFamily: 'inherit',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              <i className="fa-solid fa-browser" style={{ marginRight: '6px' }} />
-              Install PWA
-            </button>
-            <button
-              onClick={() => setInstallMethod('apk')}
-              style={{
-                flex: 1,
-                padding: 'var(--sp-3) var(--sp-4)',
-                border: 'none',
-                borderRadius: '10px',
-                background: installMethod === 'apk' ? 'var(--accent)' : 'transparent',
-                color: installMethod === 'apk' ? 'white' : 'var(--ink-3)',
-                cursor: 'pointer',
-                fontSize: 'var(--text-xs)',
-                fontWeight: 600,
-                fontFamily: 'inherit',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              <i className="fa-brands fa-android" style={{ marginRight: '6px' }} />
-              Android APK
-            </button>
-          </div>
+          {/* Share Card */}
+          <div className="card" style={{ padding: 'var(--sp-6)' }}>
+            <h2 style={{ fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--sp-4)', color: 'var(--ink)' }}>
+              <i className="fa-solid fa-share-nodes" style={{ marginRight: '8px', color: 'var(--accent)' }} />
+              Share with Friends
+            </h2>
+            <p style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-4)', lineHeight: 1.7, marginBottom: 'var(--sp-5)' }}>
+              Help your classmates discover this free CGPA Calculator.
+              Share the app link and let them calculate their grades offline!
+            </p>
 
-          {installMethod === 'pwa' ? (
-            /* ─── PWA Install Instructions ─── */
-            <div className="card" style={{ padding: 'var(--sp-6)' }}>
-              <h2 style={{ fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--sp-4)', color: 'var(--ink)' }}>
-                <i className="fa-solid fa-browser" style={{ marginRight: '8px', color: 'var(--accent)' }} />
-                Install as Progressive Web App
-              </h2>
-              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-4)', lineHeight: 1.7, marginBottom: 'var(--sp-5)' }}>
-                The app works entirely offline once installed. No Play Store required.
-                Your data stays on your device.
-              </p>
-
-              {/* Android */}
-              <div style={{ marginBottom: 'var(--sp-5)' }}>
-                <h3 style={{ fontSize: 'var(--text-2xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--ink-3)', marginBottom: 'var(--sp-3)' }}>
-                  <i className="fa-brands fa-android" style={{ marginRight: '6px' }} /> Android (Chrome)
-                </h3>
-                <ol style={{
-                  fontSize: 'var(--text-xs)', color: 'var(--ink-4)', lineHeight: 2.2,
-                  margin: 0, paddingLeft: '20px',
-                }}>
-                  <li>Open <strong>cgpa-calculator.vercel.app</strong> in Chrome</li>
-                  <li>Tap the <strong>⋮</strong> menu (top-right)</li>
-                  <li>Tap <strong>&quot;Add to Home screen&quot;</strong> or <strong>&quot;Install app&quot;</strong></li>
-                  <li>Tap <strong>Install</strong> — the app will appear on your home screen</li>
-                </ol>
-              </div>
-
-              {/* iOS */}
-              <div>
-                <h3 style={{ fontSize: 'var(--text-2xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--ink-3)', marginBottom: 'var(--sp-3)' }}>
-                  <i className="fa-brands fa-apple" style={{ marginRight: '6px' }} /> iOS (Safari)
-                </h3>
-                <ol style={{
-                  fontSize: 'var(--text-xs)', color: 'var(--ink-4)', lineHeight: 2.2,
-                  margin: 0, paddingLeft: '20px',
-                }}>
-                  <li>Open <strong>cgpa-calculator.vercel.app</strong> in Safari</li>
-                  <li>Tap the <strong>Share</strong> icon <i className="fa-solid fa-square-arrow-up" /></li>
-                  <li>Scroll down and tap <strong>&quot;Add to Home Screen&quot;</strong></li>
-                  <li>Tap <strong>Add</strong> — the app will appear on your home screen</li>
-                </ol>
-              </div>
-            </div>
-          ) : (
-            /* ─── APK Download ─── */
-            <div className="card" style={{ padding: 'var(--sp-6)' }}>
-              <h2 style={{ fontSize: 'var(--text-sm)', fontWeight: 700, marginBottom: 'var(--sp-4)', color: 'var(--ink)' }}>
-                <i className="fa-brands fa-android" style={{ marginRight: '8px', color: 'var(--accent)' }} />
-                Android APK Download
-              </h2>
-              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-4)', lineHeight: 1.7, marginBottom: 'var(--sp-5)' }}>
-                Download the APK file and sideload it on your Android device.
-                Works offline, no internet required after installation.
-              </p>
-
-              {/* Download Card */}
-              <div style={{
-                background: 'var(--surface-2)',
-                borderRadius: '12px',
-                padding: 'var(--sp-5)',
-                textAlign: 'center',
-                marginBottom: 'var(--sp-5)',
-                border: '2px dashed var(--border)',
-              }}>
-                <div style={{ fontSize: '2.5rem', color: 'var(--accent)', marginBottom: 'var(--sp-3)' }}>
-                  <i className="fa-brands fa-android" />
-                </div>
-                <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', marginBottom: 'var(--sp-1)' }}>
-                  CGPA Calculator v{APP_VERSION}
-                </div>
-                <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--ink-4)', marginBottom: 'var(--sp-4)' }}>
-                  {APK_SIZE} · Android 5.0+ · Trusted Web Activity
-                </div>
-                <a
-                  href={APK_URL}
-                  download
-                  className="btn btn-primary"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 'var(--sp-2)',
-                    padding: 'var(--sp-3) var(--sp-6)',
-                    borderRadius: '10px',
-                    background: 'var(--accent)',
-                    color: 'white',
-                    textDecoration: 'none',
-                    fontSize: 'var(--text-xs)',
-                    fontWeight: 600,
-                    fontFamily: 'inherit',
-                    border: 'none',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <i className="fa-solid fa-download" />
-                  Download APK ({APK_SIZE})
-                </a>
-              </div>
-
-              {/* Install Instructions */}
-              <h3 style={{ fontSize: 'var(--text-2xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--ink-3)', marginBottom: 'var(--sp-3)' }}>
-                How to install the APK
-              </h3>
-              <ol style={{
-                fontSize: 'var(--text-xs)', color: 'var(--ink-4)', lineHeight: 2.2,
-                margin: 0, paddingLeft: '20px',
-              }}>
-                <li>Download the APK file above to your Android device</li>
-                <li>Open <strong>Settings → Security</strong> and enable <strong>&quot;Install from unknown apps&quot;</strong></li>
-                <li>Open the downloaded APK file from your file manager or Downloads</li>
-                <li>Tap <strong>Install</strong> — the app will appear in your app drawer</li>
-                <li>Open the app — it works fully offline!</li>
-              </ol>
-
-              {/* Note */}
-              <div style={{
-                marginTop: 'var(--sp-5)',
-                padding: 'var(--sp-3) var(--sp-4)',
-                background: 'color-mix(in srgb, var(--accent) 10%, transparent)',
-                borderRadius: '8px',
-                fontSize: 'var(--text-2xs)',
-                color: 'var(--ink-4)',
-                lineHeight: 1.6,
-              }}>
-                <i className="fa-solid fa-shield-halved" style={{ marginRight: '6px', color: 'var(--accent)' }} />
-                <strong>Privacy:</strong> This APK wraps the web app in a Trusted Web Activity.
-                No data is collected. All calculations run locally on your device.
-              </div>
-            </div>
-          )}
-
-          {/* Features comparison */}
-          <div className="card" style={{ padding: 'var(--sp-5)', marginTop: 'var(--sp-4)' }}>
-            <h3 style={{ fontSize: 'var(--text-2xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--ink-3)', marginBottom: 'var(--sp-3)' }}>
-              <i className="fa-solid fa-circle-check" style={{ marginRight: '6px', color: 'var(--accent)' }} />
-              Both versions include
-            </h3>
+            {/* App Info Card */}
             <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-              gap: 'var(--sp-2)',
+              background: 'var(--surface-2)',
+              borderRadius: '12px',
+              padding: 'var(--sp-5)',
+              textAlign: 'center',
+              marginBottom: 'var(--sp-5)',
+              border: '2px solid var(--border)',
             }}>
-              {[
-                'SGPA Calculator',
-                'CGPA Calculator',
-                'GPA to Percentage',
-                'Goal Predictor',
-                'PDF Export',
-                'Calculation History',
-                'Upload Result',
-                'Offline Support',
-                'Dark Mode',
-                '11 University Systems',
-              ].map(f => (
-                <div key={f} style={{
-                  display: 'flex',
+              <div style={{ fontSize: '2.5rem', color: 'var(--accent)', marginBottom: 'var(--sp-3)' }}>
+                <i className="fa-solid fa-graduation-cap" />
+              </div>
+              <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', marginBottom: 'var(--sp-1)' }}>
+                {APP_NAME}
+              </div>
+              <div style={{ fontSize: 'var(--text-2xs)', color: 'var(--ink-4)', marginBottom: 'var(--sp-4)' }}>
+                {label} · SGPA · CGPA · Percentage
+              </div>
+              
+              {/* Share Button */}
+              <button
+                onClick={handleShare}
+                style={{
+                  display: 'inline-flex',
                   alignItems: 'center',
                   gap: 'var(--sp-2)',
-                  fontSize: 'var(--text-2xs)',
-                  color: 'var(--ink-4)',
-                  padding: 'var(--sp-1) 0',
-                }}>
-                  <i className="fa-solid fa-check" style={{ color: 'var(--accent)', fontSize: '0.6rem' }} />
-                  {f}
-                </div>
-              ))}
+                  padding: 'var(--sp-3) var(--sp-6)',
+                  borderRadius: '10px',
+                  background: 'var(--accent)',
+                  color: 'white',
+                  fontSize: 'var(--text-xs)',
+                  fontWeight: 600,
+                  fontFamily: 'inherit',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <i className={shareStatus === 'copied' ? 'fa-solid fa-check' : 'fa-solid fa-share-nodes'} />
+                {shareStatus === 'copied' ? 'Link Copied!' : shareStatus === 'shared' ? 'Shared!' : 'Share App'}
+              </button>
+            </div>
+
+            {/* Share Options */}
+            <h3 style={{ fontSize: 'var(--text-2xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--ink-3)', marginBottom: 'var(--sp-3)' }}>
+              <i className="fa-solid fa-paper-plane" style={{ marginRight: '6px' }} />
+              Share via
+            </h3>
+            
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+              gap: 'var(--sp-3)',
+            }}>
+              {/* WhatsApp */}
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT}\n\n${APP_URL}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 'var(--sp-2)',
+                  padding: 'var(--sp-4)',
+                  background: 'var(--surface-2)',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  color: 'var(--ink)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <i className="fa-brands fa-whatsapp" style={{ fontSize: '1.5rem', color: '#25D366' }} />
+                <span style={{ fontSize: 'var(--text-2xs)', fontWeight: 500 }}>WhatsApp</span>
+              </a>
+
+              {/* Telegram */}
+              <a
+                href={`https://t.me/share/url?url=${encodeURIComponent(APP_URL)}&text=${encodeURIComponent(SHARE_TEXT)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 'var(--sp-2)',
+                  padding: 'var(--sp-4)',
+                  background: 'var(--surface-2)',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  color: 'var(--ink)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <i className="fa-brands fa-telegram" style={{ fontSize: '1.5rem', color: '#0088CC' }} />
+                <span style={{ fontSize: 'var(--text-2xs)', fontWeight: 500 }}>Telegram</span>
+              </a>
+
+              {/* Twitter */}
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(APP_URL)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 'var(--sp-2)',
+                  padding: 'var(--sp-4)',
+                  background: 'var(--surface-2)',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  color: 'var(--ink)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <i className="fa-brands fa-x-twitter" style={{ fontSize: '1.5rem', color: '#000' }} />
+                <span style={{ fontSize: 'var(--text-2xs)', fontWeight: 500 }}>Twitter</span>
+              </a>
+
+              {/* Copy Link */}
+              <button
+                onClick={fallbackCopyToClipboard}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 'var(--sp-2)',
+                  padding: 'var(--sp-4)',
+                  background: 'var(--surface-2)',
+                  borderRadius: '12px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: 'var(--ink)',
+                  fontFamily: 'inherit',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <i className="fa-solid fa-link" style={{ fontSize: '1.5rem', color: 'var(--accent)' }} />
+                <span style={{ fontSize: 'var(--text-2xs)', fontWeight: 500 }}>Copy Link</span>
+              </button>
+            </div>
+
+            {/* Note */}
+            <div style={{
+              marginTop: 'var(--sp-5)',
+              padding: 'var(--sp-3) var(--sp-4)',
+              background: 'color-mix(in srgb, var(--accent) 10%, transparent)',
+              borderRadius: '8px',
+              fontSize: 'var(--text-2xs)',
+              color: 'var(--ink-4)',
+              lineHeight: 1.6,
+            }}>
+              <i className="fa-solid fa-shield-halved" style={{ marginRight: '6px', color: 'var(--accent)' }} />
+              <strong>Privacy:</strong> This app runs entirely offline.
+              No data is collected. All calculations happen on your device.
             </div>
           </div>
         </main>
