@@ -1,0 +1,21 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+const assetlinks = [
+  {
+    relation: ['delegate_permission/common.handle_all_urls'],
+    target: {
+      namespace: 'android_app',
+      package_name: 'com.cgpacalculator.app',
+      sha256_cert_fingerprints: [
+        'C4:14:95:C2:AF:3E:4A:C1:95:17:84:3F:42:1C:04:D3:92:E1:D0:08:57:5B:0B:C5:A3:C0:1D:74:A5:E9:AC:0B',
+      ],
+    },
+  },
+];
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
+  res.status(200).json(assetlinks);
+}

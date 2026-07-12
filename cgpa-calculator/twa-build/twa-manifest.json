@@ -1,6 +1,6 @@
 {
   "packageId": "com.cgpacalculator.app",
-  "host": "cgpa-calculator.vercel.app",
+  "host": "cgpacalculator7.vercel.app",
   "name": "CGPA Calculator",
   "launcherName": "CGPA Calc",
   "display": "standalone",
@@ -13,8 +13,8 @@
   "backgroundColor": "#FAFAFA",
   "enableNotifications": false,
   "startUrl": "/",
-  "iconUrl": "https://cgpa-calculator.vercel.app/icons/icon-512x512.png",
-  "maskableIconUrl": "https://cgpa-calculator.vercel.app/icons/maskable-icon-512x512.png",
+  "iconUrl": "https://cgpacalculator7.vercel.app/icons/icon-512x512.png",
+  "maskableIconUrl": "https://cgpacalculator7.vercel.app/icons/maskable-icon-512x512.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "C:/cgpa caluculator/cgpa-calculator/twa-build/debug.keystore",
@@ -24,7 +24,7 @@
   "appVersionCode": 1,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
-  "webManifestUrl": "https://cgpa-calculator.vercel.app/manifest.json",
+  "webManifestUrl": "https://cgpacalculator7.vercel.app/manifest.json",
   "fallbackType": "customtabs",
   "features": {},
   "alphaDependencies": {
@@ -33,7 +33,7 @@
   "enableSiteSettingsShortcut": true,
   "isChromeOSOnly": false,
   "isMetaQuest": false,
-  "fullScopeUrl": "https://cgpa-calculator.vercel.app/",
+  "fullScopeUrl": "https://cgpacalculator7.vercel.app/",
   "minSdkVersion": 21,
   "orientation": "portrait-primary",
   "fingerprints": [],

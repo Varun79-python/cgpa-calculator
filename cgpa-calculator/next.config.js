@@ -9,7 +9,7 @@ const withPWA = require('next-pwa')({
   runtimeCaching: [
     // HTML pages: NetworkFirst = try live first (admin updates), fall back to cache (offline)
     {
-      urlPattern: /^https:\/\/cgpa-calculator\.vercel\.app\/.*$/,
+      urlPattern: /^https:\/\/cgpacalculator7\.vercel\.app\/.*$/,
       handler: 'NetworkFirst',
       options: {
         cacheName: 'cgpa-pages-v4',
@@ -62,7 +62,24 @@ const nextConfig = withPWA({
     removeConsole: process.env.NODE_ENV === 'production',
   },
   async headers() {
-    return [{ source: '/(.*)', headers: securityHeaders }];
+    return [
+      { source: '/(.*)', headers: securityHeaders },
+      {
+        source: '/.well-known/assetlinks.json',
+        headers: [
+          { key: 'Content-Type', value: 'application/json' },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+        ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/.well-known/assetlinks.json',
+        destination: '/api/.well-known/assetlinks',
+      },
+    ];
   },
 });
 

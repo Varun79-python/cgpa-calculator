@@ -369,5 +369,5 @@ export const APP_INFO = {
   name: 'CGPA Calculator',
   version: '4.0.0',
   description: 'CGPA · SGPA · Percentage Calculator for Diploma, Degree, B.Tech & M.Tech',
-  url: 'https://cgpa-calculator.vercel.app',
+  url: 'https://cgpacalculator7.vercel.app',
 } as const;

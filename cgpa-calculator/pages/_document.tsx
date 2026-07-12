@@ -65,7 +65,7 @@ export default class MyDocument extends Document {
           <meta property="og:title" content="CGPA Calculator — SGPA · Percentage · GPA" />
           <meta property="og:description" content="Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline." />
           <meta property="og:site_name" content="CGPA Calculator" />
-          <meta property="og:url" content="https://cgpa-calculator.vercel.app" />
+          <meta property="og:url" content="https://cgpacalculator7.vercel.app" />
           <meta property="og:image" content="/icons/icon-512x512.png" />
           <meta property="og:image:width" content="512" />
           <meta property="og:image:height" content="512" />
@@ -83,7 +83,7 @@ export default class MyDocument extends Document {
                 "@context": "https://schema.org",
                 "@type": "WebApplication",
                 "name": "CGPA Calculator",
-                "url": "https://cgpa-calculator.vercel.app",
+                "url": "https://cgpacalculator7.vercel.app",
                 "description": "Calculate SGPA, CGPA, convert to percentage, predict goals, and export reports — all offline. Free for Diploma, Degree, B.Tech & M.Tech students.",
                 "applicationCategory": "EducationalApplication",
                 "operatingSystem": "All",

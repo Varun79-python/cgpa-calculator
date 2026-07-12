@@ -8,7 +8,7 @@ import { useDegreeStore } from '@/store/useStore';
 import { DEGREE_CONFIG } from '@/config/constants';
 
 const APP_NAME = 'CGPA Calculator';
-const APP_URL = 'https://cgpa-calculator.vercel.app';
+const APP_URL = 'https://cgpacalculator7.vercel.app';
 const SHARE_TEXT = 'Check out this amazing CGPA Calculator app! Calculate SGPA, CGPA, convert to percentage, and more - all offline!';
 
 export default function DownloadPage() {
