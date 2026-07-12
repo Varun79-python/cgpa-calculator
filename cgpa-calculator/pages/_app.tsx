@@ -8,6 +8,7 @@ import NetworkStatus from '@/components/Shared/NetworkStatus';
 import ErrorBoundary from '@/components/Shared/ErrorBoundary';
 import { useThemeStore, applyThemeClass } from '@/store/useStore';
 import { useBreakpoint } from '@/hooks/useBreakpoint';
+import { useIsTWA } from '@/hooks/useIsTWA';
 import '@/styles/shared.css';
 import '@/styles/mobile.css';
 import '@/styles/desktop.css';
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [displayComponent, setDisplayComponent] = useState(false);
   const { isMobile } = useBreakpoint();
+  const isTWA = useIsTWA();
 
   useEffect(() => {
     const theme = useThemeStore.getState().theme;
@@ -69,7 +71,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ToastContainer />
         <CommandPalette />
         <NetworkStatus />
-        {isMobile && <BottomNav />}
+        {isMobile && !isTWA && <BottomNav />}
       </div>
     </ErrorBoundary>
   );

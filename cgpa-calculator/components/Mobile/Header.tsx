@@ -204,7 +204,7 @@ export default function MobileHeader() {
         <div style={{ flex: 1, overflowY: 'auto', padding: 'var(--sp-3) var(--sp-3)' }}>
           {NAV_GROUPS.map((group) => {
             const filteredItems = isTWA
-              ? group.items.filter(item => !('path' in item) || item.path !== '/download')
+              ? group.items.filter(item => !('path' in item) || item.path !== '/download').filter(item => !('href' in item))
               : group.items;
             return (
               <div key={group.label} style={{ marginBottom: 'var(--sp-4)' }}>
